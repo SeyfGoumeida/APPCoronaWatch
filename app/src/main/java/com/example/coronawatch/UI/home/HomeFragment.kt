@@ -1,11 +1,15 @@
 package com.example.coronawatch.ui.home
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -14,26 +18,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.coronawatch.APIHandler
 import com.example.coronawatch.DataClases.Articles
 import com.example.coronawatch.DataClases.Redactor
+import com.example.coronawatch.MainActivity
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_loader.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.ArrayList
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
-    lateinit var apiHandler : APIHandler
+    //lateinit var apiHandler : APIHandler
     private val compositeDisposable = CompositeDisposable()
     lateinit var jsonAPI:IAPI
-    val gson = Gson()
-    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    val editor = preferences.edit()
+
 
 
     override fun onCreateView(
@@ -50,7 +55,9 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         //apiHandler = context?.let { APIHandler(it) }!!
-
+         val gson = Gson()
+         var preferences = PreferenceManager.getDefaultSharedPreferences(context)
+         val editor = preferences.edit()
          var retrofit = RetrofitClient.instance
          jsonAPI = retrofit.create(IAPI::class.java)
 
@@ -66,7 +73,13 @@ class HomeFragment : Fragment() {
         compositeDisposable.add( jsonAPI.articles
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{articles -> displayArticles (articles) }
+            .subscribe{articles ->
+
+                articles.forEach {  article ->
+                    fetchRedactor(article.redactor)
+                }
+
+                displayArticles (articles) }
 
         )
     }
@@ -76,7 +89,7 @@ class HomeFragment : Fragment() {
         compositeDisposable.add( jsonAPI.getRedactorDetails(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{ redactor ->   }
+            .subscribe{ redactor ->  setRedactorIntoPrefrences(redactor) }
 
         )
 
@@ -84,8 +97,11 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun setInoPrefrences ( item : String ) {
-        editor.putString("articles", "$item").apply()
+    private fun setRedactorIntoPrefrences ( redactor : Redactor ) {
+        val gson = Gson()
+        var preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = preferences.edit()
+        editor.putString("redactor${redactor.profile_id}", "$redactor").apply()
     }
 
 
@@ -119,14 +135,34 @@ class HomeFragment : Fragment() {
             Log.e("inside binder " , articles[p1].content )
             Log.e("inside binder", "------------------------------------------------------------------------------------------")
             holder.articleContent.text = articles[p1].content
-           this@HomeFragment.fetchRedactor(articles[p1].redactor)
+            val gson = Gson()
+            var preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val editor = preferences.edit()
 
+                preferences.apply {
+
+                    var redactor: Redactor
+                    val jsonString = preferences.getString("redactor${articles[p1].redactor}","{}")
+                    Log.e("--------------", jsonString)
+                    redactor  = gson.fromJson(jsonString , Redactor::class.java)
+                    Log.e("--------------", redactor.email)
+                    holder.profileEmail.text = redactor.email
+                    holder.profileName.text = redactor.username
+                    if (! articles[p1].attachments.isEmpty() )
+                    Picasso.get().load(articles[p1].attachments[0].path).into(holder.articleImage);
+
+
+                }
         }
 
 
         inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
 
             var articleContent: TextView = v.findViewById(R.id.article_text)
+            var profileName: TextView = v.findViewById(R.id.profil_name)
+            var profileEmail: TextView = v.findViewById(R.id.profil_occupation)
+            var articleImage: ImageView = v.findViewById(R.id.article_picture)
+
 
         }
     }
