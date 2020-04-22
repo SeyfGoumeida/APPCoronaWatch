@@ -1,0 +1,2 @@
+rootProject.name='coronawatch'
+include ':app'
