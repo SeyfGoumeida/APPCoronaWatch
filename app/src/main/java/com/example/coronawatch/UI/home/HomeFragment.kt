@@ -1,7 +1,5 @@
 package com.example.coronawatch.ui.home
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -12,29 +10,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.coronawatch.APIHandler
 import com.example.coronawatch.DataClases.Articles
 import com.example.coronawatch.DataClases.Redactor
-import com.example.coronawatch.MainActivity
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_loader.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.ArrayList
+
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
     //lateinit var apiHandler : APIHandler
     private val compositeDisposable = CompositeDisposable()
     lateinit var jsonAPI:IAPI
@@ -46,7 +38,7 @@ class HomeFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -55,10 +47,8 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         //apiHandler = context?.let { APIHandler(it) }!!
-         val gson = Gson()
-         var preferences = PreferenceManager.getDefaultSharedPreferences(context)
-         val editor = preferences.edit()
-         var retrofit = RetrofitClient.instance
+
+         val retrofit = RetrofitClient.instance
          jsonAPI = retrofit.create(IAPI::class.java)
 
         rv_home.layoutManager = LinearLayoutManager(context)
@@ -97,8 +87,7 @@ class HomeFragment : Fragment() {
 
 
     private fun setRedactorIntoPrefrences ( redactor : Redactor ) {
-        val gson = Gson()
-        var preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = preferences.edit()
         editor.putString("redactor${redactor.profile_id}", "$redactor").apply()
     }
@@ -135,15 +124,14 @@ class HomeFragment : Fragment() {
             Log.e("inside binder", "------------------------------------------------------------------------------------------")
             holder.articleContent.text = articles[p1].content
             val gson = Gson()
-            var preferences = PreferenceManager.getDefaultSharedPreferences(context)
-            val editor = preferences.edit()
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+
 
                 preferences.apply {
 
-
-
                     var redactor: Redactor
-                    lateinit var jsonString : String
+                    var jsonString : String
+
                     Handler().postDelayed({
 
                             jsonString = preferences.getString("redactor${articles[p1].redactor}","{}")
@@ -153,11 +141,11 @@ class HomeFragment : Fragment() {
                             holder.profileEmail.text = redactor.email
                             holder.profileName.text = redactor.username
 
-                    } , 0)
+                    } , 1000)
 
 
                     if (! articles[p1].attachments.isEmpty() )
-                    Picasso.get().load(articles[p1].attachments[0].path).into(holder.articleImage);
+                    Picasso.get().load(articles[p1].attachments[0].path).into(holder.articleImage)
 
 
                 }
