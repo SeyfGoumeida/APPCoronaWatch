@@ -78,7 +78,6 @@ class HomeFragment : Fragment() {
                 articles.forEach {  article ->
                     fetchRedactor(article.redactor)
                 }
-
                 displayArticles (articles) }
 
         )
@@ -141,13 +140,22 @@ class HomeFragment : Fragment() {
 
                 preferences.apply {
 
+
+
                     var redactor: Redactor
-                    val jsonString = preferences.getString("redactor${articles[p1].redactor}","{}")
-                    Log.e("--------------", jsonString)
-                    redactor  = gson.fromJson(jsonString , Redactor::class.java)
-                    Log.e("--------------", redactor.email)
-                    holder.profileEmail.text = redactor.email
-                    holder.profileName.text = redactor.username
+                    lateinit var jsonString : String
+                    Handler().postDelayed({
+
+                            jsonString = preferences.getString("redactor${articles[p1].redactor}","{}")
+                            Log.e("--------------", jsonString)
+                            redactor  = gson.fromJson(jsonString , Redactor::class.java)
+                            Log.e("--------------", redactor.email)
+                            holder.profileEmail.text = redactor.email
+                            holder.profileName.text = redactor.username
+
+                    } , 0)
+
+
                     if (! articles[p1].attachments.isEmpty() )
                     Picasso.get().load(articles[p1].attachments[0].path).into(holder.articleImage);
 
