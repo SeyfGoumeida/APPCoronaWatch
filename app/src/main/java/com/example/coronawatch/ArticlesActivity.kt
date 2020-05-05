@@ -28,13 +28,10 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class ArticlesActivity : AppCompatActivity() {
 
-
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_articles)
-
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         //val recyclerView :RecyclerView = findViewById(R.id.rv_home)
@@ -53,11 +50,6 @@ class ArticlesActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-
-       // recyclerView.layoutManager = LinearLayoutManager(this)
-      //  recyclerView.adapter = ArticlesAdapter( apiHandler.getArticles() ,R.layout.rv_home_article)
-
 
     }
 
