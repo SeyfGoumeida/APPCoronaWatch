@@ -4,10 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="40dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="20dp"
     android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="306dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/comments_recyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/article_picture"
+        app:layout_constraintTop_toBottomOf="@+id/comment_button">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_frame"
+                android:hint="تعليقك"
+                android:padding="5dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/submit_comment_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_send_black_24dp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/profil_name"
@@ -36,6 +66,7 @@
 
     <ImageView
         android:id="@+id/profil_picture"
+        style="@style/ProfilPictureStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_weight="1"
@@ -74,17 +105,24 @@
             app:trimExpandedText="اقرا اقل"
             app:trimLength="100"
             app:trimMode="trimModeLength" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/article_picture"
-        android:layout_width="330dp"
-        android:layout_height="186dp"
+        style="@style/ProfilPictureStyle"
+        android:layout_width="307dp"
+        android:layout_height="176dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_frame"
+        android:background="@drawable/covid19"
         app:layout_constraintBottom_toBottomOf="@+id/profil_picture"
         app:layout_constraintEnd_toEndOf="@+id/profil_picture"
-        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/profil_picture"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         app:layout_constraintVertical_bias="0.0" />
@@ -108,26 +146,28 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="256dp"
-        android:layout_marginRight="256dp"
+        android:layout_marginEnd="232dp"
+        android:layout_marginRight="232dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:background="@drawable/ic_forum_black_24dp"
         app:layout_constraintBottom_toTopOf="@+id/comments_recyclerView"
         app:layout_constraintEnd_toEndOf="@+id/article_picture"
         app:layout_constraintTop_toBottomOf="@+id/article_picture"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_recyclerView"
-        android:layout_width="336dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
+        android:layout_width="306dp"
+        android:layout_height="111dp"
+        android:layout_marginBottom="16dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/profil_picture"
-        app:layout_constraintHorizontal_bias="0.965"
-        app:layout_constraintStart_toStartOf="@+id/profil_picture" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/profil_picture">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
