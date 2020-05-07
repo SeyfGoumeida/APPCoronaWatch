@@ -1,7 +1,17 @@
-package com.example.coronawatch.Activities
+package com.example.coronawatch
 
+import android.app.AlertDialog
+import android.app.PendingIntent.getActivity
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +19,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.coronawatch.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
+import kotlinx.android.synthetic.main.activity_articles.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class ArticlesActivity : AppCompatActivity() {
 
@@ -37,6 +52,7 @@ class ArticlesActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
     }
+
 
     }
 
