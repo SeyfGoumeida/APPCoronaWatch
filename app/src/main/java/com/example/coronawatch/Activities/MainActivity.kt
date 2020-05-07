@@ -1,16 +1,10 @@
-package com.example.coronawatch
+package com.example.coronawatch.Activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.coronawatch.R
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.sign_up_fragment.*
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,8 +27,6 @@ class MainActivity : AppCompatActivity() {
         }
 
             //---------------------------------------------------------------------------------------------------------
-
-
 
 
         }

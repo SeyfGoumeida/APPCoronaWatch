@@ -1,11 +1,8 @@
-package com.example.coronawatch
+package com.example.coronawatch.Volley
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.android.volley.Request
 import com.android.volley.toolbox.Volley
-import java.security.AccessControlContext
 
 class VolleySingleton constructor(context: Context) {
 
@@ -17,7 +14,8 @@ class VolleySingleton constructor(context: Context) {
         fun getInstance(context: Context) =
 
             INSTANCE ?: synchronized(this) {
-                INSTANCE ?: VolleySingleton(context).also {
+                INSTANCE
+                    ?: VolleySingleton(context).also {
                     INSTANCE = it
                 }
             }

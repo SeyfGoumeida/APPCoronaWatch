@@ -1,17 +1,12 @@
-package com.example.coronawatch
+package com.example.coronawatch.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import kotlinx.android.synthetic.main.sign_up_fragment.*
+import com.example.coronawatch.R
 import kotlinx.android.synthetic.main.user_activity.*
-import org.json.JSONObject
 
 class UserActivity : AppCompatActivity() {
 
@@ -20,9 +15,12 @@ class UserActivity : AppCompatActivity() {
         setContentView(R.layout.user_activity)
 
 
-        val adapter = MyViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(SignUpFragment() , "انشاء حساب")
-        adapter.addFragment(SignInFragment() , "تسجيل الدخول")
+        val adapter =
+            MyViewPagerAdapter(
+                supportFragmentManager
+            )
+        adapter.addFragment(SignUpFragment(), "انشاء حساب")
+        adapter.addFragment(SignInFragment(), "تسجيل الدخول")
 
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)

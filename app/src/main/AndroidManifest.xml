@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.coronawatch">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,7 +14,7 @@
 
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity
-            android:name=".LoaderActivity"
+            android:name=".Activities.LoaderActivity"
             android:theme="@style/LoginPage" >
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -23,14 +22,14 @@
         </intent-filter>
         </activity>
 
-        <activity android:name=".APIHandler" />
-        <activity android:name=".ArticlesActivity" />
-        <activity android:name=".VolleySingleton" />
+        <activity android:name=".Volley.APIHandler" />
+        <activity android:name=".Activities.ArticlesActivity" />
+        <activity android:name=".Volley.VolleySingleton" />
         <activity
-            android:name=".UserActivity"
+            android:name=".Activities.UserActivity"
             android:theme="@style/LoginPage" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:theme="@style/LoginPage">
         </activity>
     </application>

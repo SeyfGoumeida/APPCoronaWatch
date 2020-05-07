@@ -1,4 +1,4 @@
-package com.example.coronawatch
+package com.example.coronawatch.Volley
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.example.coronawatch.DataClases.Articles
 import com.example.coronawatch.DataClases.Comment
 import com.example.coronawatch.DataClases.Redactor
+import com.example.coronawatch.R
 import com.google.gson.Gson
 import org.json.JSONObject
 
@@ -82,15 +83,11 @@ class APIHandler ( val context: Context) : AppCompatActivity() {
             Request.Method.GET, url , Response.Listener {
                     response ->
                 try {
-
-                        var item = response
-                        editor.putString("jsonArticle$", "$item").apply()
-
-
+                    var item = response
+                    editor.putString("jsonArticle$", "$item").apply()
                     val jsonRedactor = "$response"
                     redactor = gson.fromJson(jsonRedactor, Redactor::class.java)
                     println("> From JSON String:\n$redactor")
-
 
                 }catch (e:Exception){
                     print ("Exception: $e")
