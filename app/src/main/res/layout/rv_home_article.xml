@@ -7,7 +7,9 @@
     android:layout_marginLeft="10dp"
     android:layout_marginTop="40dp"
     android:layout_marginRight="10dp"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:background="@drawable/border_shadow"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="306dp"
@@ -75,6 +77,20 @@
         app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:background="#41000000"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="@+id/profil_picture"
+        app:layout_constraintHorizontal_bias="0.791"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profil_occupation"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
