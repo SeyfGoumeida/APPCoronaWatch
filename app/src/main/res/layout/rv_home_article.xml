@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
-    android:layout_marginTop="40dp"
     android:layout_marginRight="10dp"
+    android:layout_marginBottom="30dp"
+    android:background="@drawable/border_shadow"
+    android:orientation="vertical"
     android:padding="5dp">
 
     <LinearLayout
@@ -76,6 +78,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:background="#41000000"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="@+id/profil_picture"
+        app:layout_constraintHorizontal_bias="0.791"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profil_occupation"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="310dp"
@@ -136,30 +152,30 @@
         android:background="@drawable/ic_favorite_border_black_24dp"
         app:layout_constraintBottom_toTopOf="@+id/comments_recyclerView"
         app:layout_constraintEnd_toStartOf="@+id/comment_button"
-        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/article_picture"
         app:layout_constraintTop_toBottomOf="@+id/article_picture"
-        app:layout_constraintVertical_bias="0.009" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/comment_button"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="232dp"
-        android:layout_marginRight="232dp"
+        android:layout_marginEnd="212dp"
+        android:layout_marginRight="212dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:background="@drawable/ic_forum_black_24dp"
         app:layout_constraintBottom_toTopOf="@+id/comments_recyclerView"
         app:layout_constraintEnd_toEndOf="@+id/article_picture"
         app:layout_constraintTop_toBottomOf="@+id/article_picture"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.043" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_recyclerView"
-        android:layout_width="306dp"
-        android:layout_height="111dp"
+        android:layout_width="305dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -168,6 +184,27 @@
         app:layout_constraintStart_toStartOf="@+id/profil_picture">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/comments_number_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="14"
+        app:layout_constraintBottom_toBottomOf="@+id/comment_button"
+        app:layout_constraintStart_toEndOf="@+id/comment_button"
+        app:layout_constraintTop_toTopOf="@+id/comment_button" />
+
+    <TextView
+        android:id="@+id/likes_number_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="68"
+        app:layout_constraintBottom_toBottomOf="@+id/comment_button"
+        app:layout_constraintEnd_toStartOf="@+id/comment_button"
+        app:layout_constraintStart_toEndOf="@+id/like_button"
+        app:layout_constraintTop_toTopOf="@+id/comment_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
