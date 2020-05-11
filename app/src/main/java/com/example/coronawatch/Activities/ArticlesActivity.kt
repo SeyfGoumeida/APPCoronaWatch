@@ -1,4 +1,4 @@
-package com.example.coronawatch
+package com.example.coronawatch.Activities
 
 
 import android.os.Build
@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.coronawatch.R
 
 
 class ArticlesActivity : AppCompatActivity() {

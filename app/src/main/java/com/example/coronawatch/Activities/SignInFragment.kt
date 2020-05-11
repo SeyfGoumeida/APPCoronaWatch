@@ -12,7 +12,7 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.example.coronawatch.ArticlesActivity
+import com.example.coronawatch.Activities.ArticlesActivity
 import com.example.coronawatch.DataClases.Redactor
 import com.example.coronawatch.DataClases.User
 import com.example.coronawatch.R

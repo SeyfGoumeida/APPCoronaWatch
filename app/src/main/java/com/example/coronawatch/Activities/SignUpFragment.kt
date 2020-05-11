@@ -7,25 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.example.coronawatch.ArticlesActivity
 import com.example.coronawatch.DataClases.User
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
-import com.example.coronawatch.Volley.VolleySingleton
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.sign_in_fragment.*
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 import kotlinx.android.synthetic.main.sign_up_fragment.password
 import kotlinx.android.synthetic.main.sign_up_fragment.username
-import kotlinx.android.synthetic.main.sign_up_fragment.view.*
-import org.json.JSONObject
+
 
 class SignUpFragment : Fragment() {
 

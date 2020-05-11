@@ -4,45 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="30dp"
+   android:layout_margin="20dp"
     android:background="@drawable/border_shadow"
     android:orientation="vertical"
     android:padding="5dp">
 
     <LinearLayout
-        android:layout_width="306dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toTopOf="@+id/comments_recyclerView"
         app:layout_constraintEnd_toEndOf="@+id/article_picture"
         app:layout_constraintTop_toBottomOf="@+id/comment_button">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="275dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_frame"
-                android:hint="تعليقك"
+                android:hint="  تعليقك"
                 android:padding="5dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/submit_comment_button"
+                android:layout_width="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/ic_send_black_24dp" />
 
-        <Button
-            android:id="@+id/submit_comment_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_send_black_24dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/profil_name"
+        android:layout_marginTop="5dp"
         style="@style/ProfilNameStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +61,7 @@
         style="@style/ProfilOccupationStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_weight="1"
@@ -70,6 +73,7 @@
         android:id="@+id/profil_picture"
         style="@style/ProfilPictureStyle"
         android:layout_width="50dp"
+        android:layout_marginRight="10dp"
         android:layout_height="50dp"
         android:layout_weight="1"
         android:src="@drawable/writer_icon"
@@ -79,10 +83,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_margin="10dp"
         android:background="#41000000"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="@+id/profil_picture"
@@ -132,7 +135,8 @@
     <ImageView
         android:id="@+id/article_picture"
         style="@style/ProfilPictureStyle"
-        android:layout_width="307dp"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
         android:layout_height="176dp"
         android:layout_weight="1"
         android:background="@drawable/covid19"
@@ -147,6 +151,7 @@
         android:id="@+id/like_button"
         android:layout_width="25dp"
         android:layout_height="25dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="11dp"
         android:layout_marginBottom="4dp"
         android:background="@drawable/ic_favorite_border_black_24dp"

@@ -3,7 +3,7 @@ package com.example.coronawatch.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.coronawatch.ArticlesActivity
+import com.example.coronawatch.Activities.ArticlesActivity
 import com.example.coronawatch.R
 import kotlinx.android.synthetic.main.activity_main.*
 

@@ -21,10 +21,9 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.ArticlesActivity"
-            android:theme="@style/LoginPage" />
 
+        <activity
+            android:name=".Activities.ArticlesActivity" />
 
         <activity
             android:name=".Activities.UserActivity"
