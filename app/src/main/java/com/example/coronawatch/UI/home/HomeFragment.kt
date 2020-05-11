@@ -10,9 +10,8 @@ import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.coronawatch.DataClases.*
 
-import com.example.coronawatch.DataClases.Articles
-import com.example.coronawatch.DataClases.Redactor
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
@@ -44,7 +43,6 @@ class HomeFragment : Fragment() {
 
         rv_home.layoutManager = LinearLayoutManager(context)
         fetchArticles()
-
     }
 
 
@@ -57,7 +55,8 @@ class HomeFragment : Fragment() {
                 articles.forEach {  article ->
                     fetchRedactor(article.redactor)
                 }
-                displayArticles (articles) }
+                displayArticles (articles)
+               }
         )
     }
 
@@ -78,10 +77,7 @@ class HomeFragment : Fragment() {
 
     private fun displayArticles (articles : Articles ) {
         rv_home.adapter = ArticlesAdapter( context ,articles , R.layout.rv_home_article )
+
     }
-
-
-
-
 
 }
