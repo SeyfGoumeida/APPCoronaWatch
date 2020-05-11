@@ -67,6 +67,6 @@ class ArticlesAdapter(private val context : Context? , private val articles: Art
         var profileName: TextView = v.findViewById(R.id.profil_name)
         var profileEmail: TextView = v.findViewById(R.id.profil_occupation)
         var articleImage: ImageView = v.findViewById(R.id.article_picture)
-
+        var commentRV: RecyclerView = v.findViewById(R.id.comments_recyclerView)
     }
 }
