@@ -7,7 +7,6 @@
     android:orientation="horizontal">
 
     <LinearLayout
-
         android:id="@+id/comment_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +15,7 @@
         android:foregroundTint="#32000000"
         android:orientation="horizontal"
         android:paddingTop="10dp"
+        app:layout_constraintCircleRadius="30dp"
         android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,15 +25,59 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:layout_marginTop="5dp"
             app:srcCompat="@drawable/writer_icon" />
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent"
+    >
+        <TextView
+            android:id="@+id/user_name"
+            style="@style/ProfilNameStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="الكاتب"
+            app:layout_constraintEnd_toStartOf="@+id/profil_picture"
+            app:layout_constraintTop_toTopOf="@+id/profil_picture" />
+
+        <TextView
+            android:id="@+id/user_email"
+            style="@style/ProfilOccupationStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:text="الايميل"
+            app:layout_constraintEnd_toStartOf="@+id/profil_picture"
+            app:layout_constraintTop_toBottomOf="@+id/profil_name" />
+
+</LinearLayout>
 
         <TextView
             android:id="@+id/comment_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginTop="15dp"
             android:layout_weight="20"
             android:text="Comment..." />
+
+        <TextView
+
+            android:id="@+id/comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dd/mm/yyyy"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"/>
 
 
     </LinearLayout>

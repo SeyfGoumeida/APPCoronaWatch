@@ -19,6 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.rv_home_article.*
 
 
 class HomeFragment : Fragment() {
@@ -65,7 +66,7 @@ class HomeFragment : Fragment() {
         compositeDisposable.add( jsonAPI.getRedactorDetails(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{ redactor ->  setRedactorIntoPrefrences(redactor) }
+            .subscribe{ redactor -> setRedactorIntoPrefrences(redactor) }
         )
     }
 
@@ -75,9 +76,14 @@ class HomeFragment : Fragment() {
         editor.putString("redactor${redactor.profile_id}", "$redactor").apply()
     }
 
+
+
     private fun displayArticles (articles : Articles ) {
-        rv_home.adapter = ArticlesAdapter( context ,articles , R.layout.rv_home_article )
+        rv_home.adapter = context?.let { ArticlesAdapter(it,articles , R.layout.rv_home_article ) }
 
     }
+
+
+
 
 }

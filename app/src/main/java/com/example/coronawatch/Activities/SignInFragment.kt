@@ -19,6 +19,7 @@ import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
 import com.example.coronawatch.Volley.VolleySingleton
+import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -69,7 +70,9 @@ class SignInFragment : Fragment() {
     private fun setUserIntoPrefrences ( user : User) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = preferences.edit()
-        editor.putString("user${user.profile_id}", "$user").apply()
+        val gson = Gson()
+        val userjson = gson.toJson(user , User::class.java)
+        editor.putString("user", userjson).apply()
     }
 
     }

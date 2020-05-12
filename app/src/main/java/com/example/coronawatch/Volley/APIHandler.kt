@@ -11,11 +11,12 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.coronawatch.DataClases.Articles
-import com.example.coronawatch.DataClases.Comment
+import com.example.coronawatch.DataClases.ArticlesItem
 import com.example.coronawatch.DataClases.Redactor
 import com.example.coronawatch.R
 import com.google.gson.Gson
 import org.json.JSONObject
+import org.w3c.dom.Comment
 
 class APIHandler ( val context: Context) : AppCompatActivity() {
 
@@ -34,7 +35,7 @@ class APIHandler ( val context: Context) : AppCompatActivity() {
 
     fun initilize ( ){
 
-        Log.e("API HANDLER" ,"ON creattttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttte" )
+      /* Log.e("API HANDLER" ,"ON creattttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttte" )
         val url = "https://coronawatch.herokuapp.com/api/article/"
 
         val request = JsonArrayRequest (
@@ -48,7 +49,7 @@ class APIHandler ( val context: Context) : AppCompatActivity() {
 
         request.retryPolicy = DefaultRetryPolicy( DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, 1f)
 
-        VolleySingleton.getInstance(context).addToRequestQueue(request)
+        VolleySingleton.getInstance(context).addToRequestQueue(request)*/
 
     }
 
@@ -58,15 +59,14 @@ class APIHandler ( val context: Context) : AppCompatActivity() {
 
     fun getArticles(): Articles {
 
-        Log.e("API HANDLER" ,"Inside getartciles...............................................................")
-        var articles : Articles
-        preferences.apply {
+       var articles : Articles = arrayListOf<ArticlesItem>() as Articles
+
+        /*preferences.apply {
 
             val jsonString = preferences.getString("articles","{}")
             articles  = gson.fromJson(jsonString , Articles::class.java)
 
-        }
-        Log.e("inside try : test", articles.size.toString())
+        }*/
             return articles
 
     }
