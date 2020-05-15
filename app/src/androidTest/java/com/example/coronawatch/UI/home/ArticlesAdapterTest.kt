@@ -26,7 +26,7 @@ class ArticlesAdapterTest {
     @Before
     fun signin() {
         onView(withId(R.id.user_btn)).perform(click())
-        onView(withId(R.id.tabs)).perform((click()))
+        onView(withText("تسجيل الدخول")).perform((click()))
 
         onView(withId(R.id.username)).perform(typeText("Test@esi.dz"))
         onView(withId(R.id.password)).perform(typeText("test"))
