@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.coronawatch.DataClases.*
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
@@ -49,7 +50,11 @@ class ArticlesAdapterGuest(val context : Context, private val articles: Articles
         holder.fetchComments(articles[p1].id)
         if (! articles[p1].attachments.isEmpty() ) {
 
-            Picasso.get().load(articles[p1].attachments[0].path).into(holder.articleImage)
+            Glide.with(context)
+                .load(articles[p1].attachments[0].path)
+                .into(holder.articleImage)
+
+            //Picasso.get().load().into()
             Log.e("image${articles[p1].attachments.isEmpty()}" , articles[p1].attachments[0].path )
         }
 

@@ -134,10 +134,12 @@
 
     <ImageView
         android:id="@+id/article_picture"
+        style="@style/ProfilPictureStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="176dp"
         android:layout_margin="5dp"
         android:layout_weight="1"
+        android:background="@drawable/covid19"
         app:layout_constraintEnd_toEndOf="@+id/profil_picture"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/profil_picture"
@@ -171,7 +173,10 @@
         android:id="@+id/comments_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp"
+        android:padding="7dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -186,7 +191,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:text="0"
+        android:text="14"
         app:layout_constraintBottom_toBottomOf="@+id/comment_button"
         app:layout_constraintStart_toEndOf="@+id/comment_button"
         app:layout_constraintTop_toTopOf="@+id/comment_button"
@@ -198,25 +203,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:text="0"
+        android:text="68"
         app:layout_constraintBottom_toBottomOf="@+id/comment_button"
         app:layout_constraintStart_toEndOf="@+id/like_button"
         app:layout_constraintTop_toTopOf="@+id/comment_button"
         app:layout_constraintVertical_bias="1.0" />
-
-    <View
-        android:id="@+id/view4"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_margin="10dp"
-        android:background="#41000000"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toEndOf="@+id/profil_picture"
-        app:layout_constraintHorizontal_bias="0.791"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profil_occupation"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
