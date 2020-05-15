@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         guest_btn.setOnClickListener(){
 
-            val intent = Intent(this, ArticlesActivity::class.java)
+            val intent = Intent(this, ArticlesActivityGuest::class.java)
             startActivity(intent)
         }
 

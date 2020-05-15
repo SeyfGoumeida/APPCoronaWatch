@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -55,17 +56,13 @@ class SignInFragment : Fragment() {
 
             compositeDisposable.add( jsonAPI.getUser(username.text.toString(), password.text.toString())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe{ user -> setUserIntoPrefrences(user)
-                test2.text = user.toString()
-
-                }
-            )
-
-            val intent = Intent(context, ArticlesActivity::class.java)
-            startActivity(intent)
+                .subscribe( { user -> setUserIntoPrefrences(user)
+                    val intent = Intent(context, ArticlesActivity::class.java)
+                    startActivity(intent) } , { error  ->  Toast.makeText(context , "خطأ في اسم المستخدم او كلمة السر" ,
+                    Toast.LENGTH_LONG).show() }
+            ) )
         }
-
-        }
+    }
 
     private fun setUserIntoPrefrences ( user : User) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)

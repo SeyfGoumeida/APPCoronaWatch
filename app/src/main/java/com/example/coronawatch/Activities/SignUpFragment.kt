@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.coronawatch.DataClases.User
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
@@ -47,14 +48,14 @@ class SignUpFragment : Fragment() {
                 "First" , "Last"
             )
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe{ user -> setUserIntoPrefrences(user)
-                    test.text = user.toString()
-
-                }
+                .subscribe({ user -> setUserIntoPrefrences(user)
+                    val intent = Intent(context, ArticlesActivity::class.java)
+                    startActivity(intent)
+                     } , { error  ->  Toast.makeText(context , error.message ,
+                    Toast.LENGTH_LONG).show() } )
             )
 
-            val intent = Intent(context, ArticlesActivity::class.java)
-            startActivity(intent)
+
         }
     }
 

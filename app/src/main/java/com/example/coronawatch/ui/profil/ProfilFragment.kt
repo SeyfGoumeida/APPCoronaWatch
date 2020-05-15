@@ -1,5 +1,6 @@
 package com.example.coronawatch.ui.profil
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.coronawatch.Activities.ArticlesActivityGuest
+import com.example.coronawatch.Activities.MainActivity
 import com.example.coronawatch.DataClases.User
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
@@ -27,6 +30,8 @@ class ProfilFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+
+
         return inflater.inflate(R.layout.fragment_profil, container, false)
     }
 
@@ -41,6 +46,14 @@ class ProfilFragment : Fragment() {
 
         profile_email.text = user.email
         profile_username.text = user.username
+
+        logout.setOnClickListener{
+
+            val intent = Intent(context , MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
 
     }

@@ -22,9 +22,12 @@
         </intent-filter>
         </activity>
 
-        <activity
+
+ <activity
             android:name=".Activities.ArticlesActivity" />
 
+        <activity
+            android:name=".Activities.ArticlesActivityGuest" />
         <activity
             android:name=".Activities.UserActivity"
             android:theme="@style/LoginPage" />

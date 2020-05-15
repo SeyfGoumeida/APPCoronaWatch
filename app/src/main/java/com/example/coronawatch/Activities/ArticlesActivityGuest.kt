@@ -13,34 +13,27 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.coronawatch.R
 
 
-class ArticlesActivity : AppCompatActivity() {
+class ArticlesActivityGuest : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_articles)
+        setContentView(R.layout.activity_articles_guest)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val navView: BottomNavigationView = findViewById(R.id.nav_view_guest)
 
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        val navController = findNavController(R.id.nav_host_fragment_guest)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home,
-                R.id.navigation_videos,
-                R.id.navigation_notifications,
-                R.id.navigation_profil,
-                R.id.navigation_add
+                R.id.navigation_home_guest,
+                R.id.navigation_videos_guest
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-    }
-
-    override fun onBackPressed() {
-        // do something
     }
 
 
