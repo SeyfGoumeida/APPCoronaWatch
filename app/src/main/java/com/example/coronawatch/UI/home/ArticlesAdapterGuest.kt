@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coronawatch.DataClases.*
@@ -52,6 +53,13 @@ class ArticlesAdapterGuest(val context : Context, private val articles: Articles
             Log.e("image${articles[p1].attachments.isEmpty()}" , articles[p1].attachments[0].path )
         }
 
+        holder.commentBtn.setOnClickListener {
+            if(holder.commentRV.isVisible){
+                holder.commentRV.visibility=View.GONE
+            }else{
+                holder.commentRV.visibility=View.VISIBLE
+            }
+        }
 
 
         preferences.apply {
@@ -79,6 +87,8 @@ class ArticlesAdapterGuest(val context : Context, private val articles: Articles
         var profileEmail: TextView = v.findViewById(R.id.profil_occupation)
         var articleImage: ImageView = v.findViewById(R.id.article_picture)
         var commentRV: RecyclerView = v.findViewById(R.id.comments_recyclerView)
+        var commentBtn :Button=v.findViewById((R.id.comment_button))
+        var commentNbr : TextView=v.findViewById((R.id.comments_number_textview))
         val compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitClient.instance
         val jsonAPI = retrofit.create(IAPI::class.java)
@@ -97,7 +107,9 @@ class ArticlesAdapterGuest(val context : Context, private val articles: Articles
                         fetchUser(comment.mobileuserid)
                     }
 
-                    displayComments(comments) }
+                    displayComments(comments)
+                    commentNbr.text=comments.size.toString()
+                }
             )
         }
 

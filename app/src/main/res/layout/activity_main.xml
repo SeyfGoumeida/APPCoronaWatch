@@ -26,6 +26,10 @@ tools:context=".Activities.MainActivity"
 
         android:src="@drawable/text" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
     <Button
         android:id="@+id/guest_btn"
         android:layout_width="250dp"

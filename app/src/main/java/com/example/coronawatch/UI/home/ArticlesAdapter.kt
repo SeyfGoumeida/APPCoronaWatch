@@ -1,6 +1,7 @@
 package com.example.coronawatch.ui.home
 
 import android.content.Context
+import android.media.TimedText
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coronawatch.DataClases.*
@@ -53,7 +55,13 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
         }
 
 
-
+        holder.commentBtn.setOnClickListener {
+            if(holder.commentRV.isVisible){
+                holder.commentRV.visibility=View.GONE
+            }else{
+                holder.commentRV.visibility=View.VISIBLE
+            }
+        }
 
         holder.submit.setOnClickListener{
 
@@ -100,9 +108,12 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
         var commentRV: RecyclerView = v.findViewById(R.id.comments_recyclerView)
         var submit : Button =  v.findViewById(R.id.submit_comment_button)
         var content : TextInputEditText =  v.findViewById(R.id.comment_content)
+        var commentBtn : Button=v.findViewById((R.id.comment_button))
+        var commentNbr : TextView=v.findViewById((R.id.comments_number_textview))
         val compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitClient.instance
         val jsonAPI = retrofit.create(IAPI::class.java)
+
 
 
         fun fetchComments (id:Int) {
@@ -118,7 +129,10 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
                         fetchUser(comment.mobileuserid)
                     }
 
-                    displayComments(comments) }
+                    displayComments(comments)
+                    commentNbr.text=comments.size.toString()
+
+                }
             )
         }
 
@@ -143,6 +157,7 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
         fun displayComments (comments: Comments) {
              Log.e("comments" , comments.toString())
             commentRV.adapter = CommentsAdapter(comments , context)
+
         }
 
         fun addComment (id: Int, authorization : String, content :String) {
