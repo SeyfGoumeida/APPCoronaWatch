@@ -45,7 +45,6 @@ class ArticlesAdapterTest {
 
     }
 
-
     fun SignUp(username: String , email:String , password: String) {
 
         onView(withId(R.id.user_btn)).perform(click())
