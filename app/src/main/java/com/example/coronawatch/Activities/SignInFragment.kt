@@ -54,7 +54,7 @@ class SignInFragment : Fragment() {
 
         loginbtn.setOnClickListener {
 
-            compositeDisposable.add( jsonAPI.getUser(username.text.toString(), password.text.toString())
+            compositeDisposable.add( jsonAPI.getUser(username_login.text.toString(), password_login.text.toString())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { user -> setUserIntoPrefrences(user)
                     val intent = Intent(context, ArticlesActivity::class.java)

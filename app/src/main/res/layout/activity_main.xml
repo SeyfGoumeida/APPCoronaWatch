@@ -28,7 +28,7 @@ tools:context=".Activities.MainActivity"
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_height="50dp" />
 
     <Button
         android:id="@+id/guest_btn"
