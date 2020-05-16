@@ -1,16 +1,17 @@
 package com.example.coronawatch.UI.home
 
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.example.coronawatch.Activities.MainActivity
 import com.example.coronawatch.R
-import org.hamcrest.Matchers.allOf
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,8 +23,7 @@ class ArticlesAdapterTest {
     @Rule
     @JvmField
     val rule :ActivityTestRule<MainActivity> =ActivityTestRule(MainActivity::class.java)
-
-    @Test
+    @Before
 
     fun signin() {
 
@@ -34,19 +34,40 @@ class ArticlesAdapterTest {
         onView(withId(R.id.password_login)).perform(typeText("test"))
         onView(withId(R.id.loginbtn)).perform(click())
         Thread.sleep(3000)
-        //onView(withId(R.id.recycler_id)).perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("A")), click()));
+
+
 
     }
+    @Test
+    fun UserCanComment() {
 
-    fun signp() {
-        onView(withId(R.id.user_btn)).perform(click())
-        val random = (0..100).random()
-        onView(withId(R.id.username)).perform(typeText("test$random"), ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.email)).perform(typeText("test$random@esi.dz"), ViewActions.closeSoftKeyboard())
-        onView(withId(R.id.password)).perform(typeText("test"),closeSoftKeyboard())
-        onView(withId(R.id.password2)).perform(typeText("test"),closeSoftKeyboard())
-        onView(withId(R.id.signupbtn))
-            .perform(click())
+        fun type(viewId: Int) = object : ViewAction {
+            override fun getConstraints() = null
+
+            override fun getDescription() = "Click on a child view with specified id."
+
+            override fun perform(uiController: UiController, view: View) = typeText("A comment from Test function : UserCanComment() ").
+                perform(uiController, view.findViewById<View>(viewId))
+        }
+
+        fun click(viewId: Int) = object : ViewAction {
+            override fun getConstraints() = null
+
+            override fun getDescription() = "Click on a child view with specified id."
+
+            override fun perform(uiController: UiController, view: View) = click().perform(uiController, view.findViewById<View>(viewId))
+
+        }
+
+        onView(withId(R.id.rv_home))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
+                type(R.id.comment_content)))
+
+        onView(withId(R.id.rv_home))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
+                click(R.id.submit_comment_button)))
+
+
     }
     /*@After
     fun tearDown() {
