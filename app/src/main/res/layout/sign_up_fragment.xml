@@ -42,7 +42,8 @@
         android:layout_marginEnd="40dp"
         android:drawableRight="@drawable/lock"
         android:drawablePadding="20dp"
-        android:hint="كلمة السر" />
+        android:hint="كلمة السر"
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/password2"
@@ -54,7 +55,9 @@
         android:layout_marginEnd="40dp"
         android:drawableRight="@drawable/lock"
         android:drawablePadding="20dp"
-        android:hint="اعد ادخال كلمة السر" />
+        android:hint="اعد ادخال كلمة السر"
+        android:inputType="textPassword"
+        />
 
     <Button
         android:id="@+id/signupbtn"

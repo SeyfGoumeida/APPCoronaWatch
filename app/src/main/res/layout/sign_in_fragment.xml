@@ -29,7 +29,8 @@
         android:textColor="@android:color/white"
         android:drawableRight="@drawable/lock"
         android:drawablePadding="20dp"
-        android:hint="كلمة السر" />
+        android:hint="كلمة السر"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/loginbtn"
