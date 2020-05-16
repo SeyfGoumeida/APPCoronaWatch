@@ -1,6 +1,7 @@
 package com.example.coronawatch.UI.home
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -24,19 +25,25 @@ class ArticlesAdapterTest {
     @JvmField
     val rule :ActivityTestRule<MainActivity> =ActivityTestRule(MainActivity::class.java)
     @Before
-    fun signin() {
-        onView(withId(R.id.user_btn)).perform(click())
-        onView(withText("تسجيل الدخول")).perform((click()))
-
-        onView(withId(R.id.username)).perform(typeText("Test@esi.dz"))
-        onView(withId(R.id.password)).perform(typeText("test"))
-        onView(withId(R.id.loginbtn)).perform(click())
+    fun up() {
 
     }
     @Test
     fun UserCanComment() {
-        onView(withId(R.id.comment_content)).perform(typeText("A comment from Test function : UserCanComment() "))
-        onView(withId(R.id.submit_comment_button)).perform(click())
+        onView(withId(R.id.user_btn)).perform(click())
+        val random = (0..100).random()
+        onView(withId(R.id.username)).perform(typeText("test$random"), ViewActions.closeSoftKeyboard())
+
+        onView(withId(R.id.email)).perform(typeText("test$random@esi.dz"), ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.password)).perform(typeText("test"), ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.password2)).perform(typeText("test"), ViewActions.closeSoftKeyboard())
+        onView(withId(R.id.signupbtn))
+            .perform(click())
+
+
+        //onView(withId(R.id.comment_button)).perform(click())
+        //onView(withId(R.id.comment_content)).perform(typeText("A comment from Test function : UserCanComment() "))
+        // onView(withId(R.id.submit_comment_button)).perform(click())
 
     }
     @After
