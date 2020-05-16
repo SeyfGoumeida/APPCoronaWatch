@@ -2,8 +2,10 @@ package com.example.coronawatch.ui.home
 
 import android.content.Context
 import android.media.TimedText
+import android.os.Build
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +46,13 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
 
-        holder.articleContent.text = articles[p1].content
+        //holder.articleContent.text = articles[p1].content
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            holder.articleContent.setText(Html.fromHtml(articles[p1].content, Html.FROM_HTML_MODE_LEGACY))
+
+        } else {
+            holder.articleContent.setText(Html.fromHtml(articles[p1].content));
+        }
         val gson = Gson()
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         holder.commentRV.layoutManager = LinearLayoutManager(context)

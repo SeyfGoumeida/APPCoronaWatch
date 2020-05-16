@@ -45,11 +45,8 @@ class ArticlesAdapterGuest(val context : Context, private val articles: Articles
 
         //holder.articleContent.text = articles[p1].content
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //holder.articleContent.setText(Html.fromHtml(articles[p1].content, Html.FROM_HTML_MODE_LEGACY))
-            val col =  holder.articleContent.solidColor
-            val htmlSpanner = HtmlSpanner( holder.articleContent.currentTextColor,  holder.articleContent.textSize)
-            htmlSpanner.setBackgroundColor(col)
-            holder.articleContent.setText(htmlSpanner.fromHtml( articles[p1].content))
+            holder.articleContent.setText(Html.fromHtml(articles[p1].content, Html.FROM_HTML_MODE_LEGACY))
+
         } else {
             holder.articleContent.setText(Html.fromHtml(articles[p1].content));
         }
