@@ -50,7 +50,7 @@ class ArticlesAdapterTest {
                 perform(uiController, view.findViewById<View>(viewId))
         }
 
-        fun clickOnViewChild(viewId: Int) = object : ViewAction {
+        fun click(viewId: Int) = object : ViewAction {
             override fun getConstraints() = null
 
             override fun getDescription() = "Click on a child view with specified id."
@@ -65,7 +65,7 @@ class ArticlesAdapterTest {
 
         onView(withId(R.id.rv_home))
             .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0,
-                clickOnViewChild(R.id.submit_comment_button)))
+                click(R.id.submit_comment_button)))
 
 
     }
