@@ -16,7 +16,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        //other configs
+                multiDexEnabled true //add this line
     }
 
     buildTypes {
@@ -35,6 +36,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
+
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -104,4 +106,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
+    //HTML TO TEXTVIEW
+    implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
+    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
+    implementation 'com.android.support:multidex:1.0.3'
+
 }

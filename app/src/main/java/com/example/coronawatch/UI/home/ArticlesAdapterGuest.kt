@@ -1,8 +1,10 @@
 package com.example.coronawatch.ui.home
 
 import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +20,8 @@ import com.example.coronawatch.DataClases.*
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
-import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
+import com.sysdata.htmlspanner.HtmlSpanner
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -43,7 +43,16 @@ class ArticlesAdapterGuest(val context : Context, private val articles: Articles
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
 
-        holder.articleContent.text = articles[p1].content
+        //holder.articleContent.text = articles[p1].content
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //holder.articleContent.setText(Html.fromHtml(articles[p1].content, Html.FROM_HTML_MODE_LEGACY))
+            val col =  holder.articleContent.solidColor
+            val htmlSpanner = HtmlSpanner( holder.articleContent.currentTextColor,  holder.articleContent.textSize)
+            htmlSpanner.setBackgroundColor(col)
+            holder.articleContent.setText(htmlSpanner.fromHtml( articles[p1].content))
+        } else {
+            holder.articleContent.setText(Html.fromHtml(articles[p1].content));
+        }
         val gson = Gson()
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         holder.commentRV.layoutManager = LinearLayoutManager(context)

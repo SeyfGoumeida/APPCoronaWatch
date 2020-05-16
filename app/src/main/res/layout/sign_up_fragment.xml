@@ -29,7 +29,8 @@
         android:layout_marginEnd="40dp"
         android:drawableRight="@drawable/ic_markunread_24px"
         android:drawablePadding="20dp"
-        android:hint="البريد الالكتروني" />
+        android:hint="البريد الالكتروني"
+        android:importantForAutofill="no"/>
 
     <EditText
         android:id="@+id/password"
