@@ -30,7 +30,7 @@ class ArticlesAdapterTest {
     @Test
    fun CommentingProccess () {
 
-        val random = (0..100).random()
+        val random = (100..1000).random()
         val username = "test$random"
         val email = "test$random@esi.dz"
         val password = "test"
@@ -43,7 +43,6 @@ class ArticlesAdapterTest {
 
 
     }
-
 
     fun SignUp(username: String , email:String , password: String) {
 
