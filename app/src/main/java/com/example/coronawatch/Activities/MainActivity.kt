@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ArticlesActivityGuest::class.java)
             startActivity(intent)
         }
+        map_btn.setOnClickListener() {
+
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        }
 
             //---------------------------------------------------------------------------------------------------------
 
@@ -33,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-            }
+}
 
 
 
