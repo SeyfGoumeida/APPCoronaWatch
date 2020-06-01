@@ -2,6 +2,7 @@ package com.example.coronawatch.UI.home
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
@@ -95,6 +96,7 @@ class ArticlesAdapterTest {
 
         }
 
+
         onView(withId(R.id.rv_home))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -102,7 +104,7 @@ class ArticlesAdapterTest {
                     type(R.id.comment_content, comment)
                 )
             )
-
+        Espresso.closeSoftKeyboard()
         onView(withId(R.id.rv_home))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -117,7 +119,6 @@ class ArticlesAdapterTest {
         Thread.sleep(2000)
         onView(withId(R.id.rv_home)).perform(swipeUp());
         Thread.sleep(2000)
-
 
     }
 

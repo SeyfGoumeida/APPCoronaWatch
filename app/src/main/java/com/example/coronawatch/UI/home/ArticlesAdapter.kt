@@ -47,6 +47,7 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
 
         //holder.articleContent.text = articles[p1].content
+        //--------------HTML TO TextView-----------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.articleContent.setText(Html.fromHtml(articles[p1].content, Html.FROM_HTML_MODE_LEGACY))
 
