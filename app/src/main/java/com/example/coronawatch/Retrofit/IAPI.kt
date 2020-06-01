@@ -20,6 +20,14 @@ interface IAPI {
     fun getUser(@Field("username") username: String, @Field("password") password: String): Observable<User>
 
     @FormUrlEncoded
+    @POST("users/googlesign/")
+    fun googleLogin(@Field("google_access_token") google_access_token: String): Observable<User>
+
+    @FormUrlEncoded
+    @POST("users/facebooksign/")
+    fun facebbokLogin(@Field("facebook_access_token") facebook_access_token: String): Observable<User>
+
+    @FormUrlEncoded
     @POST("users/emailsign/")
     fun signUser(@Field("username") username: String,
                  @Field("email") email: String,
