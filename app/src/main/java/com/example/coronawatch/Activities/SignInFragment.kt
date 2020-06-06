@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Base64
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import com.example.coronawatch.DataClases.User
 import com.example.coronawatch.R
@@ -131,13 +133,16 @@ class SignInFragment : Fragment() {
         compositeDisposable.add( jsonAPI.facebbokLogin(token!!.token)
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe( { user -> setUserIntoPrefrences(user)
-                val intent = Intent(context, ArticlesActivity::class.java)
-                startActivity(intent)
+                Handler().postDelayed({
+                    val intent = Intent(context, ArticlesActivity::class.java)
+                    startActivity(intent)
+                },3000)
+
                 } , { error  ->  Toast.makeText(context ,error.message ,
                 Toast.LENGTH_LONG).show() }
             ) )
     }
-    fun printHashKey() {
+    /*fun printHashKey() {
         try {
             val info = context!!.packageManager.getPackageInfo(context!!.packageName, PackageManager.GET_SIGNATURES)
             for (signature in info.signatures) {
@@ -150,7 +155,7 @@ class SignInFragment : Fragment() {
             Log.e("TAG", "printHashKey()", e)
         } catch (e: Exception) {
             Log.e("TAG", "printHashKey()", e)
-        }}
+        }}*/
 
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -172,6 +177,7 @@ class SignInFragment : Fragment() {
         try {
 
             val account = completedTask.getResult(ApiException::class.java)
+
             val idToken = account!!.idToken.toString()
 
 
@@ -183,10 +189,12 @@ class SignInFragment : Fragment() {
 
             compositeDisposable.add( jsonAPI.googleLogin(idToken)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe( { token -> Toast.makeText(context , "$token" ,
-                    Toast.LENGTH_LONG).show()
+                .subscribe({ user ->
+                    setUserIntoPrefrences(user)
+
                     val intent = Intent(context, ArticlesActivity::class.java)
-                    startActivity(intent) } , { error  ->  Toast.makeText(context ,error.message ,
+                    startActivity(intent)
+                } , { error  ->  Toast.makeText(context ,error.message ,
                     Toast.LENGTH_LONG).show() }
                 ) )
 

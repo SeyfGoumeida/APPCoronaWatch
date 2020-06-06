@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_map"
+            android:iconTint="@android:color/darker_gray"
+            android:icon="@drawable/mapbox_compass_icon"
+            android:title="الخريطة" />
+        <item
+            android:id="@+id/nav_articles"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:iconTint="@android:color/darker_gray"
+            android:title="الواجهة" />
+
+    </group>
+
+</menu>

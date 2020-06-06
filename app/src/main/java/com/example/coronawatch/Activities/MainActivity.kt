@@ -23,14 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         guest_btn.setOnClickListener(){
 
-            val intent = Intent(this, ArticlesActivityGuest::class.java)
+            val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
         }
-        map_btn.setOnClickListener() {
 
-            val intent = Intent(this, MapActivity::class.java)
-            startActivity(intent)
-        }
 
             //---------------------------------------------------------------------------------------------------------
 

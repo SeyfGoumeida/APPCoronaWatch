@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,8 +25,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.MapActivity" />
 
         <activity android:name=".Activities.ArticlesActivity" />
 
@@ -33,6 +32,10 @@
         <activity android:name=".Activities.UserActivity"
             android:theme="@style/LoginPage" />
         <activity android:name=".Activities.MainActivity"
+        android:theme="@style/LoginPage">
+    </activity>
+
+        <activity android:name=".Activities.DashboardActivity"
             android:theme="@style/LoginPage">
         </activity>
 

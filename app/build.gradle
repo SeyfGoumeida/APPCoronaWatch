@@ -118,6 +118,7 @@ dependencies {
     implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
     implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
     implementation 'com.android.support:multidex:1.0.3'
+
     //MAP BOX
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
 
