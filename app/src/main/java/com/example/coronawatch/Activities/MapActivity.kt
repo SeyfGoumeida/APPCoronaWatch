@@ -58,7 +58,7 @@ class MapFragment : Fragment() ,OnMapReadyCallback{
         return view
     }
 // ma3raftch ndir el fetch ta3 regions
-
+//
 //    private fun fetchregions() {
 //        compositeDisposable.add( jsonAPI.getCountryStatistics(56)
 //            .subscribeOn(Schedulers.io())
@@ -96,6 +96,7 @@ class MapFragment : Fragment() ,OnMapReadyCallback{
         if (googlemap != null) {
             mMap = googlemap
         }
+        // hada exemple ta3 DZ , we should put a loop here for all countries
 
         val locationALG = LatLng(28.0339,1.6596)
         mMap.addMarker(
