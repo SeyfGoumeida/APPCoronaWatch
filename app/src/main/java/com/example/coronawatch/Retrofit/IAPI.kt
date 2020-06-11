@@ -58,5 +58,8 @@ interface IAPI {
                     @Field("Authorization") Authorization: String,
                     @Field("content") content: String ) : Observable<String>
 
+    //MAP
+    @GET("geo/country/{country_id}/infectedregions/")
+    fun getAlgeriastatistics(@Path("country_id") id: Int): Observable<Region>
 
 }
