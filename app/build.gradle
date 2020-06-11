@@ -10,7 +10,6 @@ android {
 
     kotlinOptions { jvmTarget = "1.8" }
 
-
     defaultConfig {
         applicationId "com.example.coronawatch"
         minSdkVersion 18
@@ -121,5 +120,8 @@ dependencies {
 
     //MAP BOX
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
+    //google maps
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.4.3'
 
 }
