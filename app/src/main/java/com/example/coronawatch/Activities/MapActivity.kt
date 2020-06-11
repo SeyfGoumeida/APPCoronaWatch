@@ -57,9 +57,10 @@ class MapFragment : Fragment() ,OnMapReadyCallback{
         //fetchregions()
         return view
     }
+// ma3raftch ndir el fetch ta3 regions
 
 //    private fun fetchregions() {
-//        compositeDisposable.add( jsonAPI.getAlgeriastatistics(56)
+//        compositeDisposable.add( jsonAPI.getCountryStatistics(56)
 //            .subscribeOn(Schedulers.io())
 //            .observeOn(AndroidSchedulers.mainThread())
 //            .subscribe{ region ->
