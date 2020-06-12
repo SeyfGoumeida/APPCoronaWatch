@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border_shadow"
-        android:visibility="visible"
+        android:visibility="gone"
         android:padding="10dp"
         android:layout_margin="20dp"
         android:layout_marginTop="100dp"
@@ -139,5 +139,49 @@
             mapbox:layout_constraintEnd_toEndOf="parent"
             mapbox:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/deathButton"
+            android:text="موتى"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="#80F44336"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp" />
+
+        <Button
+            android:id="@+id/confirmedButton"
+            android:text="مؤكدين"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="#809C27B0"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/recoveredButton"
+            android:text="متعافين"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="#80009688"
+
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/susprectedButton"
+            android:text="مشتبهين"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="#80FF5722"
+
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

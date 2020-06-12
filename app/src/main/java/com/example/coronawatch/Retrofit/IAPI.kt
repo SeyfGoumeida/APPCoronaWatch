@@ -60,6 +60,13 @@ interface IAPI {
 
     //MAP
     @GET("geo/country/{country_id}/infectedregions/")
-    fun getCountryStatistics(@Path("country_id") id: Int): Observable<Regions>
+    fun getCountryRigions(@Path("country_id") id: Int): Observable<Regions>
+
+    @GET("geo/country/{country_id}/stats/")
+    fun getCountryStatistics(@Path("country_id") id: Int): Observable<Stats>
+
+    @GET("geo/country/")
+    fun getcountries(): Observable<Countries>
+
 
 }
