@@ -39,7 +39,7 @@ class ArticlesAdapterTest {
         SignUp(username , email  , password)
         LogOut()
         SignIn(email , password)
-        UserCanComment("trying the whole thing yay")
+       // UserCanComment("trying the whole thing yay")
         LogOut()
 
 
@@ -64,8 +64,8 @@ class ArticlesAdapterTest {
         onView(withId(R.id.user_btn)).perform(click())
         onView(withId(R.id.viewPager)).perform(swipeLeft())
         Thread.sleep(1000)
-        onView(withId(R.id.username_login)).perform(typeText(username))
-        onView(withId(R.id.password_login)).perform(typeText(password))
+        onView(withId(R.id.username_login)).perform(typeText(username),closeSoftKeyboard())
+        onView(withId(R.id.password_login)).perform(typeText(password),closeSoftKeyboard())
         onView(withId(R.id.loginbtn)).perform(click())
         Thread.sleep(3000)
 

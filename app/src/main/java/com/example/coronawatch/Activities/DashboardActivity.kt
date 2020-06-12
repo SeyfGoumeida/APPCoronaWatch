@@ -30,8 +30,6 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL)
 
 
-
-
         // Toolbar and View
 
         setContentView(R.layout.activity_dashboard)
