@@ -220,7 +220,7 @@ class SignInFragment : Fragment() {
         val editor = preferences.edit()
         val gson = Gson()
         val userjson = gson.toJson(user , User::class.java)
-        editor.putString("user", userjson).apply()
+        editor.putString("currentUser", userjson).apply()
     }
 
     }

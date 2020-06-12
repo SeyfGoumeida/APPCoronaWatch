@@ -1,6 +1,7 @@
-package com.example.coronawatch.ui.home
+package com.example.coronawatch.ui.videos
 
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -9,9 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,8 +27,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 
-class ArticlesAdapter( val context : Context , private val articles: Articles, private val itemLayout : Int) :
-    RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
+class VideosAdapter(val context: Context, private val videos: Videos, private val itemLayout: Int) :
+    RecyclerView.Adapter<VideosAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -39,29 +38,35 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
 
     override fun getItemCount(): Int {
 
-        return articles.size
+        return videos.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
 
         //holder.articleContent.text = articles[p1].content
         //--------------HTML TO TextView-----------------------
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            holder.articleContent.setText(Html.fromHtml(articles[p1].content, Html.FROM_HTML_MODE_LEGACY))
+            holder.videoTitle.setText(Html.fromHtml(videos[p1].title, Html.FROM_HTML_MODE_LEGACY))
 
         } else {
-            holder.articleContent.setText(Html.fromHtml(articles[p1].content));
+            holder.videoTitle.setText(Html.fromHtml(videos[p1].title));
         }
         val gson = Gson()
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         holder.commentRV.layoutManager = LinearLayoutManager(context)
-        holder.fetchComments(articles[p1].id)
+        holder.fetchComments(videos[p1].id)
 
-        if (! articles[p1].attachments.isEmpty() ) {
+        if (! videos[p1].path.isEmpty() ) {
 
-            Picasso.get().load(articles[p1].attachments[0].path).into(holder.articleImage)
-            Glide.with(context).load(articles[p1].attachments[0].path).into(holder.articleImage);
-            Log.e("image" , articles[p1].attachments.isEmpty().toString())
+            holder.videoImage.setVideoURI(Uri.parse(videos[p1].path))
+            holder.videoImage.setMediaController(MediaController(context))
+            holder.videoImage.requestFocus()
+            holder.videoImage.start()
+
+            //Picasso.get().load(videos[p1].path).into(holder.videoImage)
+            //Glide.with(context).load(videos[p1].path).into(holder.videoImage);
+            Log.e("image" , videos[p1].path.isEmpty().toString())
         }
 
 
@@ -78,30 +83,30 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
             var userString : String  = preferences.getString("currentUser","{}")
             Log.e("currentUser", userString)
             val trimmed: String = userString.trim()
-            Log.e("currentUser", trimmed)
+            Log.e("CurrnetUser", trimmed)
             var user : User = gson.fromJson(trimmed , User::class.java)
 
             if ( holder.content.text.toString() != "")
 
-            { holder.addComment(articles[p1].id ,user.token , holder.content.text.toString())
+            { holder.addComment(videos[p1].id ,user.token , holder.content.text.toString())
                 Handler().postDelayed({
                     holder.content.setText("")
-                holder.fetchComments(articles[p1].id) } , 500) }
+                holder.fetchComments(videos[p1].id) } , 500) }
 
         }
 
 
         preferences.apply {
 
-            var redactor: Redactor
+            var user: User
             var jsonString : String
 
             Handler().postDelayed({
 
-                jsonString = preferences.getString("redactor${articles[p1].redactor}","{}")
-                redactor  = gson.fromJson(jsonString , Redactor::class.java)
-                holder.profileEmail.text = redactor.email
-                holder.profileName.text = redactor.username
+                jsonString = preferences.getString("user${videos[p1].mobileuserid}","{}")
+                user  = gson.fromJson(jsonString , User::class.java)
+                holder.profileEmail.text = user.email
+                holder.profileName.text = user.username
 
             } , 1000)
 
@@ -111,15 +116,15 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
 
     class ViewHolder(v: View , val context: Context ) : RecyclerView.ViewHolder(v) {
 
-        var articleContent: TextView = v.findViewById(R.id.article_text)
-        var profileName: TextView = v.findViewById(R.id.profil_name)
-        var profileEmail: TextView = v.findViewById(R.id.profil_occupation)
-        var articleImage: ImageView = v.findViewById(R.id.article_picture)
-        var commentRV: RecyclerView = v.findViewById(R.id.comments_recyclerView)
-        var submit : Button =  v.findViewById(R.id.submit_comment_button)
-        var content : TextInputEditText =  v.findViewById(R.id.comment_content)
-        var commentBtn : Button=v.findViewById((R.id.comment_button))
-        var commentNbr : TextView=v.findViewById((R.id.comments_number_textview))
+        var videoTitle: TextView = v.findViewById(R.id.article_text_vidoes)
+        var profileName: TextView = v.findViewById(R.id.profil_name_vidoes)
+        var profileEmail: TextView = v.findViewById(R.id.profil_occupation_vidoes)
+        var videoImage: VideoView = v.findViewById(R.id.article_picture_vidoes)
+        var commentRV: RecyclerView = v.findViewById(R.id.comments_recyclerView_vidoes)
+        var submit : Button =  v.findViewById(R.id.submit_comment_button_vidoes)
+        var content : TextInputEditText =  v.findViewById(R.id.comment_content_vidoes)
+        var commentBtn : Button=v.findViewById((R.id.comment_button_vidoes))
+        var commentNbr : TextView=v.findViewById((R.id.comments_number_textview_vidoes))
         val compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitClient.instance
         val jsonAPI = retrofit.create(IAPI::class.java)
@@ -128,7 +133,7 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
 
         fun fetchComments (id:Int) {
 
-            compositeDisposable.add( jsonAPI.getComments(id)
+            compositeDisposable.add( jsonAPI.getCommentsVideos(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{ comments ->
@@ -164,9 +169,9 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
         }
 
 
-        fun displayComments (comments: Comments) {
+        fun displayComments (comments: VideoComments) {
              Log.e("comments" , comments.toString())
-            commentRV.adapter = CommentsAdapter(comments , context)
+            commentRV.adapter = VideoCommentsAdapter(comments , context)
 
         }
 
@@ -174,7 +179,7 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
 
             val authorizationT = " Token " + authorization
 
-            compositeDisposable.add( jsonAPI.addComment(id, authorizationT , content)
+            compositeDisposable.add( jsonAPI.addCommentVideo(id, authorizationT , content)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe{ comment -> Log.e("add comment" , comment.toString() )
