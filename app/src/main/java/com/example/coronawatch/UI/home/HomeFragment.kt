@@ -19,7 +19,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.rv_home_article.*
 
 
 class HomeFragment : Fragment() {
@@ -79,7 +78,7 @@ class HomeFragment : Fragment() {
 
 
     private fun displayArticles (articles : Articles ) {
-        rv_home.adapter = context?.let { ArticlesAdapter(it,articles , R.layout.rv_home_article ) }
+        rv_home.adapter = context?.let { ArticlesAdapter( it, articles , R.layout.rv_home_article ) }
 
     }
 

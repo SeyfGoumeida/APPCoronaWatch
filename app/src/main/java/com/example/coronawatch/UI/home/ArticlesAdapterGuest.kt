@@ -21,7 +21,6 @@ import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
 import com.google.gson.Gson
-import com.sysdata.htmlspanner.HtmlSpanner
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

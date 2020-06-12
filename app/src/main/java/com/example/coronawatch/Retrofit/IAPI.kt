@@ -9,6 +9,9 @@ interface IAPI {
     @get:GET("article")
     val articles:Observable<Articles>
 
+    @get:GET("video")
+    val videos:Observable<Videos>
+
     @GET("users/redactor/{redactor_id}/")
     fun getRedactorDetails(@Path("redactor_id") id: Int): Observable<Redactor>
 
@@ -40,6 +43,11 @@ interface IAPI {
     @GET("article/{article_id}/comments/")
     fun getComments(@Path("article_id") id: Int): Observable<Comments>
 
+    @GET("video/{video_id}/comments/")
+    fun getCommentsVideos(@Path("video_id") id: Int): Observable<VideoComments>
+
+
+
     @FormUrlEncoded
     @POST("article/detailComment/{comment_id}/")
     fun deleteComment(@Path("comment_id") id: Int , @Field("Authorization") Authorization: String) : Observable <String>
@@ -50,6 +58,20 @@ interface IAPI {
     fun addComment(@Path("article_id") id: Int ,
                     @Header("Authorization") Authorization: String,
                     @Part("content") content: String ) : Observable<CommentsItem>
+
+    @Multipart
+    @POST("video/")
+    fun addVideo( @Header("Authorization") Authorization: String,
+                   @Part("title") title: String  ,
+                   @Part("video")  path: String ) : Observable<CommentsItem>
+
+
+    @Multipart
+    @POST("video/{video_id}/comments/")
+    fun addCommentVideo(@Path("video_id") id: Int ,
+                   @Header("Authorization") Authorization: String,
+                   @Part("content") content: String ) : Observable<VideoCommentsItem>
+
 
 
     @FormUrlEncoded
@@ -67,6 +89,9 @@ interface IAPI {
 
     @GET("geo/country/")
     fun getcountries(): Observable<Countries>
+
+
+
 
 
 }

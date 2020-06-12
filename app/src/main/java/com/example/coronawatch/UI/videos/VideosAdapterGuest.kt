@@ -20,16 +20,14 @@ import com.example.coronawatch.DataClases.*
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
 import com.example.coronawatch.Retrofit.RetrofitClient
-import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 
-class ArticlesAdapter( val context : Context , private val articles: Articles, private val itemLayout : Int) :
-    RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
+class VideosAdapterGuest(val context : Context, private val articles: Articles, private val itemLayout : Int) :
+    RecyclerView.Adapter<VideosAdapterGuest.ViewHolder>() {
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -45,7 +43,6 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
 
         //holder.articleContent.text = articles[p1].content
-        //--------------HTML TO TextView-----------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.articleContent.setText(Html.fromHtml(articles[p1].content, Html.FROM_HTML_MODE_LEGACY))
 
@@ -56,14 +53,15 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         holder.commentRV.layoutManager = LinearLayoutManager(context)
         holder.fetchComments(articles[p1].id)
-
         if (! articles[p1].attachments.isEmpty() ) {
 
-            Picasso.get().load(articles[p1].attachments[0].path).into(holder.articleImage)
-            Glide.with(context).load(articles[p1].attachments[0].path).into(holder.articleImage);
-            Log.e("image" , articles[p1].attachments.isEmpty().toString())
-        }
+            Glide.with(context)
+                .load(articles[p1].attachments[0].path)
+                .into(holder.articleImage)
 
+            //Picasso.get().load().into()
+            Log.e("image${articles[p1].attachments.isEmpty()}" , articles[p1].attachments[0].path )
+        }
 
         holder.commentBtn.setOnClickListener {
             if(holder.commentRV.isVisible){
@@ -71,23 +69,6 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
             }else{
                 holder.commentRV.visibility=View.VISIBLE
             }
-        }
-
-        holder.submit.setOnClickListener{
-
-            var userString : String  = preferences.getString("currentUser","{}")
-            Log.e("currentUser", userString)
-            val trimmed: String = userString.trim()
-            Log.e("currentUser", trimmed)
-            var user : User = gson.fromJson(trimmed , User::class.java)
-
-            if ( holder.content.text.toString() != "")
-
-            { holder.addComment(articles[p1].id ,user.token , holder.content.text.toString())
-                Handler().postDelayed({
-                    holder.content.setText("")
-                holder.fetchComments(articles[p1].id) } , 500) }
-
         }
 
 
@@ -116,14 +97,11 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
         var profileEmail: TextView = v.findViewById(R.id.profil_occupation)
         var articleImage: ImageView = v.findViewById(R.id.article_picture)
         var commentRV: RecyclerView = v.findViewById(R.id.comments_recyclerView)
-        var submit : Button =  v.findViewById(R.id.submit_comment_button)
-        var content : TextInputEditText =  v.findViewById(R.id.comment_content)
-        var commentBtn : Button=v.findViewById((R.id.comment_button))
+        var commentBtn :Button=v.findViewById((R.id.comment_button))
         var commentNbr : TextView=v.findViewById((R.id.comments_number_textview))
         val compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitClient.instance
         val jsonAPI = retrofit.create(IAPI::class.java)
-
 
 
         fun fetchComments (id:Int) {
@@ -141,7 +119,6 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
 
                     displayComments(comments)
                     commentNbr.text=comments.size.toString()
-
                 }
             )
         }
@@ -167,19 +144,8 @@ class ArticlesAdapter( val context : Context , private val articles: Articles, p
         fun displayComments (comments: Comments) {
              Log.e("comments" , comments.toString())
             commentRV.adapter = CommentsAdapter(comments , context)
+        }
 
         }
 
-        fun addComment (id: Int, authorization : String, content :String) {
-
-            val authorizationT = " Token " + authorization
-
-            compositeDisposable.add( jsonAPI.addComment(id, authorizationT , content)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{ comment -> Log.e("add comment" , comment.toString() )
-                }
-            )
-        }
-    }
 }
