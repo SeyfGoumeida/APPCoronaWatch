@@ -245,7 +245,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                 mMap.setOnCircleClickListener{
                     Toast.makeText(context,circle.center.toString(), Toast.LENGTH_LONG).show()
                 }
- 
+
             }
             "Recovered" -> {
                 val circle= mMap.addCircle(
