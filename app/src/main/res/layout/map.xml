@@ -6,44 +6,138 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:translationZ="2dp"
-        tools:ignore="MissingConstraints">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
-
-
-    <EditText
-        android:id="@+id/search_bar"
-        android:textColor="@android:color/white"
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        android:drawableLeft="@drawable/mapbox_logo_icon"
-        >
-
-
-    </EditText>
-
-
-
-
-    </LinearLayout>
-
-
-    <com.mapbox.mapboxsdk.maps.MapView
+    <fragment
         android:id="@+id/mapView"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="63dp"
-        tools:layout_editor_absoluteY="0dp">
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/popupLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_shadow"
+        android:visibility="visible"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="100dp"
+        mapbox:layout_constraintBottom_toBottomOf="parent"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintHorizontal_bias="1.0"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent"
+        mapbox:layout_constraintVertical_bias="0.17">
 
-    </com.mapbox.mapboxsdk.maps.MapView>
+        <TextView
+            android:id="@+id/countryTextView"
+            android:text="Algeria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textStyle="bold|italic"
+            android:textSize="25dp"
+            mapbox:layout_constraintEnd_toEndOf="parent"
+            mapbox:layout_constraintStart_toStartOf="parent"
+            mapbox:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#009688"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            mapbox:layout_constraintBottom_toTopOf="@+id/infectedTextView"
+            mapbox:layout_constraintEnd_toEndOf="parent"
+            mapbox:layout_constraintStart_toStartOf="parent"
+            mapbox:layout_constraintTop_toBottomOf="@+id/countryTextView"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:text="عدد الاصابات المؤكدة :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="28dp"
+            mapbox:layout_constraintEnd_toEndOf="parent"
+            mapbox:layout_constraintTop_toBottomOf="@+id/countryTextView" />
+
+        <TextView
+            android:id="@+id/infectedTextView"
+            android:text="10,484"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="104dp"
+            mapbox:layout_constraintEnd_toEndOf="@+id/countryTextView"
+            mapbox:layout_constraintTop_toTopOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:text="عدد المتماثلين للشفاء  :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            mapbox:layout_constraintEnd_toEndOf="@+id/textView9"
+            mapbox:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/recovredTextView"
+            android:text="7,074"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:layout_constraintEnd_toEndOf="@+id/infectedTextView"
+            mapbox:layout_constraintTop_toTopOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:text="عدد الموتى  :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            mapbox:layout_constraintEnd_toEndOf="@+id/textView11"
+            mapbox:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/deathTextView"
+            android:text="732"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:layout_constraintEnd_toEndOf="@+id/recovredTextView"
+            mapbox:layout_constraintTop_toTopOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:text="عدد الحالات المشتبه فيها :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="50dp"
+            mapbox:layout_constraintBottom_toBottomOf="parent"
+            mapbox:layout_constraintEnd_toEndOf="@+id/textView13"
+            mapbox:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/suspectedTextView"
+            android:text="000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:layout_constraintBottom_toBottomOf="@+id/textView15"
+            mapbox:layout_constraintEnd_toEndOf="@+id/deathTextView"
+            mapbox:layout_constraintTop_toTopOf="@+id/textView15" />
+
+        <Button
+            android:id="@+id/fermerButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_cross"
+            android:layout_marginEnd="4dp"
+            mapbox:layout_constraintEnd_toEndOf="parent"
+            mapbox:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
