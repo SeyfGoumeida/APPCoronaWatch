@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.coronawatch.DataClases.Regions
@@ -20,13 +21,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.map.*
 
 
 lateinit var mMap : GoogleMap
@@ -38,6 +39,12 @@ class MapFragment : Fragment() , OnMapReadyCallback {
     lateinit var recoveredButton : Button
     lateinit var confirmedButton : Button
     lateinit var suspectedButton : Button
+    lateinit var infectedTextView : TextView
+    lateinit var recovredTextView : TextView
+    lateinit var deathTextView : TextView
+    lateinit var suspectedTextView : TextView
+
+    lateinit var statistics :View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.map, null)
@@ -48,7 +55,11 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             onMapReady(mMap)
 
         }
-        val statistics = view.findViewById<View>(R.id.popupLayout)
+        statistics = view.findViewById<View>(R.id.popupLayout)
+        infectedTextView  = view.findViewById(R.id.infectedTextView)
+        recovredTextView = view.findViewById(R.id.recovredTextView)
+        deathTextView  = view.findViewById(R.id.deathTextView)
+        suspectedTextView = view.findViewById(R.id.suspectedTextView)
         val fermer = view.findViewById<View>(R.id.fermerButton)
         fermer.setOnClickListener {
             statistics.visibility = View.GONE
@@ -66,7 +77,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             fetchregions(56)
             fetchCountriesStats("Confirmed")
             fetchCountryStats("Confirmed",56,getLat(56),getLng(56))
-            Toast.makeText(context, "تم تحميل الخريطة بنجاح", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, " ...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
         }
         suspectedButton.setOnClickListener{
             mMap.clear()
@@ -74,7 +85,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             fetchregions(56)
             fetchCountriesStats("Suspected")
             fetchCountryStats("Suspected",56,getLat(56),getLng(56))
-            Toast.makeText(context, "تم تحميل الخريطة بنجاح", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
         }
         deathButton.setOnClickListener{
             mMap.clear()
@@ -82,7 +93,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             fetchregions(56)
             fetchCountriesStats("Death")
             fetchCountryStats("Death",56,getLat(56),getLng(56))
-            Toast.makeText(context, "تم تحميل الخريطة بنجاح", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
         }
         recoveredButton.setOnClickListener{
             mMap.clear()
@@ -90,7 +101,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             fetchregions(56)
             fetchCountriesStats("Recovered")
             fetchCountryStats("Recovered",56,getLat(56),getLng(56))
-            Toast.makeText(context, "تم تحميل الخريطة بنجاح", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
 
         }
         return view
@@ -222,7 +233,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         if (googlemap != null) {
             mMap = googlemap
         }
-            val location = LatLng(latitude, longitude)
+        val location = LatLng(latitude, longitude)
         var death = stats.nb_death__sum.toDouble()
             death= circleSize(death)
         var recovered = stats.nb_recovered__sum.toDouble()
@@ -233,7 +244,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         suspected= circleSize(suspected)
         when (type) {
             "Death" -> {
-                val circle= mMap.addCircle(
+                var circle=mMap.addCircle(
                     CircleOptions()
                         .center(location)
                         .radius(death)
@@ -242,10 +253,19 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .fillColor(Color.argb(50, 255, 0, 0))
                         .clickable(true)
                 )
-                mMap.setOnCircleClickListener{
-                    Toast.makeText(context,circle.center.toString(), Toast.LENGTH_LONG).show()
-                }
+                circle.tag=location
+                mMap.setOnCircleClickListener{ mCirclee ->
+                    //Toast.makeText(context,mCirclee.tag.toString(), Toast.LENGTH_LONG).show()
+                    val mLocation : LatLng = circle.tag as LatLng
+                    Toast.makeText(context,mCirclee.center.latitude.toString(), Toast.LENGTH_LONG).show()
 
+                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
+                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
+                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
+                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
+
+                    popupLayout.visibility=(View.VISIBLE)
+                }
             }
             "Recovered" -> {
                 val circle= mMap.addCircle(
@@ -257,8 +277,18 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .fillColor(Color.argb(50, 0, 165, 99))
                         .clickable(true)
                 )
-                mMap.setOnCircleClickListener{
-                    Toast.makeText(context, "Clicked", Toast.LENGTH_LONG).show()
+                circle.tag=location
+                mMap.setOnCircleClickListener{ mCirclee ->
+                    //Toast.makeText(context,mCirclee.tag.toString(), Toast.LENGTH_LONG).show()
+                    val mLocation : LatLng = circle.tag as LatLng
+                    Toast.makeText(context,mCirclee.center.latitude.toString(), Toast.LENGTH_LONG).show()
+
+                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
+                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
+                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
+                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
+
+                    popupLayout.visibility=(View.VISIBLE)
                 }
             }
             "Confirmed" -> {
@@ -271,8 +301,18 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .fillColor(Color.argb(50, 186, 3, 107))
                         .clickable(true)
                 )
-                mMap.setOnCircleClickListener{
-                    Toast.makeText(context, "Clicked", Toast.LENGTH_LONG).show()
+                circle.tag=location
+                mMap.setOnCircleClickListener{ mCirclee ->
+                    //Toast.makeText(context,mCirclee.tag.toString(), Toast.LENGTH_LONG).show()
+                    val mLocation : LatLng = circle.tag as LatLng
+                    Toast.makeText(context,mCirclee.center.latitude.toString(), Toast.LENGTH_LONG).show()
+
+                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
+                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
+                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
+                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
+
+                    popupLayout.visibility=(View.VISIBLE)
                 }
             }
             "Suspected" -> {
@@ -285,8 +325,19 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .fillColor(Color.argb(50, 255, 145, 0))
                         .clickable(true)
                 )
-                mMap.setOnCircleClickListener{
-                    Toast.makeText(context, "Clicked", Toast.LENGTH_LONG).show()
+                circle.tag=location
+                mMap.setOnCircleClickListener{ mCirclee ->
+                    //Toast.makeText(context,mCirclee.tag.toString(), Toast.LENGTH_LONG).show()
+                    val mLocation : LatLng = circle.tag as LatLng
+                    //Toast.makeText(context,mCirclee.center.longitude.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,getId(mCirclee.center.latitude,mCirclee.center.longitude).toString(), Toast.LENGTH_LONG).show()
+
+                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
+                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
+                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
+                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
+
+                   // popupLayout.visibility=(View.VISIBLE)
                 }
             }
         }
@@ -359,6 +410,44 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             )
         )
         return lng
+    }
+    private fun getId(latitude : Double, longitude : Double):Int{
+        var id =0
+        compositeDisposable.add( jsonAPI.getcountries()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe (
+                { countries ->
+                    val listIterator = countries.listIterator()
+
+                    for(country in countries ) {
+                        if (country.latitude.equals(latitude) && country.longitude.equals(longitude)) {
+                            id = country.id
+                            popupLayout.visibility=(View.VISIBLE)
+                            break
+                        }
+                    }
+                } ,
+                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
+                }
+            )
+        )
+        return id
+    }
+    private fun getCountryStats(idCountry:Int):Stats {
+        var stat = Stats(0,0,0,0,0)
+        compositeDisposable.add( jsonAPI.getCountryStatistics(idCountry)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe (
+                { stats ->
+                    stat=stats
+                } ,
+                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
+                }
+            )
+        )
+        return stat
     }
 }
 
