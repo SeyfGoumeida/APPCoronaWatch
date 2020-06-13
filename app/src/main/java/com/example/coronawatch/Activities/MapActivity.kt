@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.example.coronawatch.DataClases.Countries
 import com.example.coronawatch.DataClases.Regions
 import com.example.coronawatch.DataClases.Stats
 import com.example.coronawatch.R
@@ -43,9 +45,12 @@ class MapFragment : Fragment() , OnMapReadyCallback {
     lateinit var recovredTextView : TextView
     lateinit var deathTextView : TextView
     lateinit var suspectedTextView : TextView
+    lateinit var countryName : TextView
+
 
     lateinit var statistics :View
-
+    var countries: Countries = Countries()
+    private var stat = Stats(0,0,0,0,0)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.map, null)
         val mapFragment: SupportMapFragment =
@@ -56,6 +61,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
 
         }
         statistics = view.findViewById<View>(R.id.popupLayout)
+        countryName = view.findViewById(R.id.countryTextView)
         infectedTextView  = view.findViewById(R.id.infectedTextView)
         recovredTextView = view.findViewById(R.id.recovredTextView)
         deathTextView  = view.findViewById(R.id.deathTextView)
@@ -124,6 +130,16 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
+        getCountries()
+        mMap.setOnCircleClickListener{ mCircle ->
+            stat=getCountryStats(getCountryId(mCircle.center.latitude,mCircle.center.longitude))
+            infectedTextView.text= stat.nb_confirmed__sum.toString()
+            recovredTextView.text=stat.nb_recovered__sum.toString()
+            deathTextView.text=stat.nb_death__sum.toString()
+            suspectedTextView.text=stat.nb_suspected__sum.toString()
+            countryName.text=getCountryName(mCircle.center.latitude,mCircle.center.longitude)
+            popupLayout.visibility=(View.VISIBLE)
+        }
     }
     private fun fetchregions(idCountry:Int) {
 
@@ -155,7 +171,6 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             )
         )
     }
-
     private fun fetchCountryStats(type :String,idCountry:Int,latitude:Double,longitude:Double) {
                     compositeDisposable.add( jsonAPI.getCountryStatistics(idCountry)
                         .subscribeOn(Schedulers.io())
@@ -254,18 +269,6 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .clickable(true)
                 )
                 circle.tag=location
-                mMap.setOnCircleClickListener{ mCirclee ->
-                    //Toast.makeText(context,mCirclee.tag.toString(), Toast.LENGTH_LONG).show()
-                    val mLocation : LatLng = circle.tag as LatLng
-                    Toast.makeText(context,mCirclee.center.latitude.toString(), Toast.LENGTH_LONG).show()
-
-                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
-                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
-                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
-                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
-
-                    popupLayout.visibility=(View.VISIBLE)
-                }
             }
             "Recovered" -> {
                 val circle= mMap.addCircle(
@@ -278,18 +281,6 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .clickable(true)
                 )
                 circle.tag=location
-                mMap.setOnCircleClickListener{ mCirclee ->
-                    //Toast.makeText(context,mCirclee.tag.toString(), Toast.LENGTH_LONG).show()
-                    val mLocation : LatLng = circle.tag as LatLng
-                    Toast.makeText(context,mCirclee.center.latitude.toString(), Toast.LENGTH_LONG).show()
-
-                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
-                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
-                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
-                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
-
-                    popupLayout.visibility=(View.VISIBLE)
-                }
             }
             "Confirmed" -> {
                 val circle=mMap.addCircle(
@@ -302,18 +293,6 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .clickable(true)
                 )
                 circle.tag=location
-                mMap.setOnCircleClickListener{ mCirclee ->
-                    //Toast.makeText(context,mCirclee.tag.toString(), Toast.LENGTH_LONG).show()
-                    val mLocation : LatLng = circle.tag as LatLng
-                    Toast.makeText(context,mCirclee.center.latitude.toString(), Toast.LENGTH_LONG).show()
-
-                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
-                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
-                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
-                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
-
-                    popupLayout.visibility=(View.VISIBLE)
-                }
             }
             "Suspected" -> {
                 val circle= mMap.addCircle(
@@ -326,23 +305,9 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                         .clickable(true)
                 )
                 circle.tag=location
-                mMap.setOnCircleClickListener{ mCirclee ->
-
-//                    var ss = getId(mCirclee.center.latitude,mCirclee.center.longitude).toString()
-//                    Toast.makeText(context,ss, Toast.LENGTH_LONG).show()
-//                    infectedTextView.text= getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_confirmed__sum.toString()
-//                    recovredTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_recovered__sum.toString()
-//                    deathTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_death__sum.toString()
-//                    suspectedTextView.text=getCountryStats(getId(mCirclee.center.latitude,mCirclee.center.longitude)).nb_suspected__sum.toString()
-//
-//                    popupLayout.visibility=(View.VISIBLE)
-                      Toast.makeText(context,getId(mCirclee.center.latitude,mCirclee.center.longitude).toString(), Toast.LENGTH_LONG).show()
-
-                }
             }
         }
     }
-
     private fun circleSize(number: Double): Double {
         var mNumber = number
         if(mNumber>0) {
@@ -384,59 +349,51 @@ class MapFragment : Fragment() , OnMapReadyCallback {
     }
     private fun getLat(countryId : Int)  :Double{
         var lat : Double =0.0
-        compositeDisposable.add( jsonAPI.getcountries()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (
-                { countries ->
                     for(country in countries ) if (country.id==countryId){lat=country.latitude}
-                } ,
-                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
-                }
-            )
-        )
         return lat
     }
     private fun getLng(countryId : Int) :Double{
         var lng : Double =0.0
-        compositeDisposable.add( jsonAPI.getcountries()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (
-                { countries -> for (country in countries)if (country.id==countryId){lng=country.latitude}
-                } ,
-                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
-                }
-            )
-        )
+        for (country in countries)if (country.id==countryId){lng=country.latitude}
         return lng
     }
-    private fun getId(latitude : Double, longitude : Double):Int{
-        var mId =0
+    private fun getCountries() {
         compositeDisposable.add( jsonAPI.getcountries()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
-                { countries ->
-                    val country = countries.find {it.latitude.equals(latitude) && it.longitude.equals(longitude)}
-                    if (country != null) {
-                        mId=country.id
-                    }
+                { listcountries -> countries=listcountries
                 } ,
                 { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
                 }
             )
         )
+
+    }
+    private fun getCountryId(latitude : Double, longitude : Double):Int{
+        var mId =0
+        val country = countries.find {it.latitude.equals(latitude) && it.longitude.equals(longitude)}
+        if (country != null) {
+            mId=country.id
+        }
         return mId
     }
-    private fun getCountryStats(idCountry:Int):Stats {
-        var stat = Stats(0,0,0,0,0)
+    private fun getCountryName(latitude : Double, longitude : Double):String{
+        var mName =""
+        val country = countries.find {it.latitude.equals(latitude) && it.longitude.equals(longitude)}
+        if (country != null) {
+            mName=country.name
+        }
+        return mName
+    }
+
+    private fun getCountryStats(idCountry:Int): Stats {
         compositeDisposable.add( jsonAPI.getCountryStatistics(idCountry)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
-                { stats ->
-                    stat=stats
+                { statistics  ->
+                    stat=statistics
                 } ,
                 { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
                 }
@@ -444,5 +401,6 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         )
         return stat
     }
+
 }
 
