@@ -68,16 +68,26 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.fragment_container, fragment1)
                 transaction.commit()
-                toolbar.title = "الخريطة"
+                toolbar.title = " خريطة العالم"
 
             }
+            R.id.nav_map_country -> {
 
+                val fragment1 = MapCountryFragment()
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, fragment1)
+                transaction.commit()
+                toolbar.title = "خريطة دولة"
+
+            }
             R.id.nav_articles -> {
 
                 val intent = Intent(this, ArticlesActivityGuest::class.java)
                 startActivity(intent)
 
             }
+
+
 
         }
         drawerLayout.closeDrawer(GravityCompat.START)

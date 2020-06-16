@@ -32,8 +32,9 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.map.*
 
 
+lateinit var mMap : GoogleMap
 
-class MapFragment : Fragment() , OnMapReadyCallback {
+class MapCountryFragment : Fragment() , OnMapReadyCallback {
     private val compositeDisposable = CompositeDisposable()
     lateinit var jsonAPI: IAPI
     lateinit var deathButton : Button
@@ -45,9 +46,10 @@ class MapFragment : Fragment() , OnMapReadyCallback {
     lateinit var deathTextView : TextView
     lateinit var suspectedTextView : TextView
     lateinit var countryName : TextView
-    lateinit var mMap : GoogleMap
+
+
     lateinit var statistics :View
-    var countries: Countries = Countries()
+    var mRegions: Regions = Regions()
     private var stat = Stats(0,0,0,0,0)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.map, null)
@@ -78,9 +80,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         confirmedButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions(56)
-            fetchCountriesStats("Confirmed")
-            fetchCountryStats("Confirmed",56,getLat(56),getLng(56))
+            fetchregions("Confirmed",56)
             Toast.makeText(context, " ...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.INVISIBLE
             suspectedButton.visibility=View.VISIBLE
@@ -90,9 +90,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         suspectedButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions(56)
-            fetchCountriesStats("Suspected")
-            fetchCountryStats("Suspected",56,getLat(56),getLng(56))
+            fetchregions("Suspected",56)
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
             suspectedButton.visibility=View.INVISIBLE
@@ -102,9 +100,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         deathButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions(56)
-            fetchCountriesStats("Death")
-            fetchCountryStats("Death",56,getLat(56),getLng(56))
+            fetchregions("Death",56)
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
             suspectedButton.visibility=View.VISIBLE
@@ -114,9 +110,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         recoveredButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions(56)
-            fetchCountriesStats("Recovered")
-            fetchCountryStats("Recovered",56,getLat(56),getLng(56))
+            fetchregions("Recovered",56)
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
             suspectedButton.visibility=View.VISIBLE
@@ -144,63 +138,34 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
-        getCountries()
         mMap.setOnCircleClickListener{ mCircle ->
-            val mId= getCountryId(mCircle.center.latitude,mCircle.center.longitude)
-            getCountryStats(mId)
+            val mId = getRegionId(mCircle.center.latitude,mCircle.center.longitude)
+            getRegionStats(mId)
             infectedTextView.text= stat.nb_confirmed__sum.toString()
             recovredTextView.text=stat.nb_recovered__sum.toString()
             deathTextView.text=stat.nb_death__sum.toString()
             suspectedTextView.text=stat.nb_suspected__sum.toString()
-            countryName.text=getCountryName(mCircle.center.latitude,mCircle.center.longitude)
+            countryName.text=getRegionName(mId)
             popupLayout.visibility=(View.VISIBLE)
         }
     }
-    private fun fetchregions(idCountry:Int) {
+    private fun fetchregions(type:String,idCountry:Int) {
 
-      compositeDisposable.add( jsonAPI.getCountryRigions(idCountry)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe (
-              { regions ->
-                  circle("Recovered",mMap, regions)
-              } ,
-              { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
-              }
-            )
-      )
-
-   }
-    private fun fetchCountriesStats(type:String) {
-        compositeDisposable.add( jsonAPI.getcountries()
+        compositeDisposable.add( jsonAPI.getCountryRigions(idCountry)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
-                { countries ->
-                    for (country in countries) {
-                        fetchCountryStats(type,country.id, country.latitude, country.longitude)
-                    }
+                { regions ->
+                    circle(type,mMap, regions)
                 } ,
                 { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
                 }
             )
         )
-    }
-    private fun fetchCountryStats(type :String,idCountry:Int,latitude:Double,longitude:Double) {
-                    compositeDisposable.add( jsonAPI.getCountryStatistics(idCountry)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe (
-                            { stats ->
-                                circle(type,mMap,stats,latitude,longitude)
-                            } ,
-                            { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
-                            }
-                        )
-                    )
 
     }
     private fun circle(type : String,googlemap: GoogleMap? , regions : Regions) {
+        mRegions =regions
         if (googlemap != null) {
             mMap = googlemap
         }
@@ -259,163 +224,52 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         }
 
     }
-    private fun circle(type : String,googlemap: GoogleMap? , stats : Stats,latitude : Double ,longitude : Double) {
-        if (googlemap != null) {
-            mMap = googlemap
-        }
-        val location = LatLng(latitude, longitude)
-        var death = stats.nb_death__sum.toDouble()
-            death= circleSize(death)
-        var recovered = stats.nb_recovered__sum.toDouble()
-        recovered= circleSize(recovered)
-        var confirmed = stats.nb_confirmed__sum.toDouble()
-        confirmed= circleSize(confirmed)
-        var suspected = stats.nb_suspected__sum.toDouble()
-        suspected= circleSize(suspected)
-        when (type) {
-            "Death" -> {
-                var circle=mMap.addCircle(
-                    CircleOptions()
-                        .center(location)
-                        .radius(death)
-                        .strokeWidth(3f)
-                        .strokeColor(Color.argb(100, 255, 0, 0))
-                        .fillColor(Color.argb(50, 255, 0, 0))
-                        .clickable(true)
-                )
-                circle.tag=location
-            }
-            "Recovered" -> {
-                val circle= mMap.addCircle(
-                    CircleOptions()
-                        .center(location)
-                        .radius(recovered)
-                        .strokeWidth(3f)
-                        .strokeColor(Color.argb(100, 0, 165, 99))
-                        .fillColor(Color.argb(50, 0, 165, 99))
-                        .clickable(true)
-                )
-                circle.tag=location
-            }
-            "Confirmed" -> {
-                val circle=mMap.addCircle(
-                    CircleOptions()
-                        .center(location)
-                        .radius(confirmed)
-                        .strokeWidth(3f)
-                        .strokeColor(Color.argb(100, 186, 3, 107))
-                        .fillColor(Color.argb(50, 186, 3, 107))
-                        .clickable(true)
-                )
-                circle.tag=location
-            }
-            "Suspected" -> {
-                val circle= mMap.addCircle(
-                    CircleOptions()
-                        .center(location)
-                        .radius(suspected)
-                        .strokeWidth(3f)
-                        .strokeColor(Color.argb(100, 255, 145, 0))
-                        .fillColor(Color.argb(50, 255, 145, 0))
-                        .clickable(true)
-                )
-                circle.tag=location
-            }
-        }
-    }
-    private fun circleSize(number: Double): Double {
-        var mNumber = number
-        if(mNumber>0) {
-            if (mNumber < 1000) {
-                while (mNumber < 1000) {
-                    mNumber *= 10
-                }
-                mNumber *= 5.0
-            } else if (mNumber < 10000 && mNumber > 1000) {
-                while (mNumber < 10000) {
-                    mNumber *= 10
-                }
-            } else if (mNumber < 50000 && mNumber > 10000) {
-                while (mNumber < 50000) {
-                    mNumber *= 10
-                }
-            }
-        }else{mNumber=20000.0}
-        return mNumber
-    }
     private fun circleSizeRegion(number: Double): Double {
         var mNumber = number
         if(mNumber>0) {
             if (mNumber < 1000) {
-                while (mNumber < 1000) {
-                    mNumber *= 10
-                }
-            } else if (mNumber < 10000 && mNumber > 1000) {
                 while (mNumber < 10000) {
                     mNumber *= 10
                 }
+            } else if (mNumber < 10000 && mNumber > 1000) {
+                while (mNumber < 100000) {
+                    mNumber *= 10
+                }
             } else if (mNumber < 50000 && mNumber > 10000) {
-                while (mNumber < 50000) {
+                while (mNumber < 500000) {
                     mNumber *= 10
                 }
             }
         }
         return mNumber
     }
-    private fun getLat(countryId : Int)  :Double{
-        var lat : Double =0.0
-                    for(country in countries ) if (country.id==countryId){lat=country.latitude}
-        return lat
-    }
-    private fun getLng(countryId : Int) :Double{
-        var lng : Double =0.0
-        for (country in countries)if (country.id==countryId){lng=country.latitude}
-        return lng
-    }
-    private fun getCountries() {
-        compositeDisposable.add( jsonAPI.getcountries()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (
-                { listcountries -> countries=listcountries
-                } ,
-                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
-                }
-            )
-        )
-
-    }
-    private fun getCountryId(latitude : Double, longitude : Double):Int{
+    private fun getRegionId(latitude : Double, longitude : Double):Int{
         var mId =0
-        val country = countries.find {it.latitude.equals(latitude) && it.longitude.equals(longitude)}
-        if (country != null) {
-            mId=country.id
+        val region = mRegions.find {it.region.latitude==latitude && it.region.longitude.equals(longitude)}
+        if (region != null) {
+            mId=region.id
         }
         return mId
     }
-    private fun getCountryName(latitude : Double, longitude : Double):String{
+    private fun getRegionName(regionId:Int):String{
         var mName =""
-        val country = countries.find {it.latitude.equals(latitude) && it.longitude.equals(longitude)}
-        if (country != null) {
-            mName=country.name
+        val region = mRegions.find {it.id==regionId}
+        if (region != null) {
+            mName=region.region.region_name
         }
         return mName
     }
-    private fun getCountryStats(idCountry:Int){
-        compositeDisposable.add( jsonAPI.getCountryStatistics(idCountry)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (
-                { statistics  ->
-                    affectStats(statistics)
-                } ,
-                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
-                }
-            )
-        )
-    }
+    private fun getRegionStats(idRegion:Int) {
+       for(region in mRegions){
+           if (region.id==idRegion){
+               val statistics = Stats(region.nb_confirme,region.nb_recovered,region.nb_notyetsick,region.nb_suspected,region.nb_confirme)
+               affectStats(statistics)
+           }
+       }
+     }
     private fun affectStats(stats: Stats){
         stat=stats
     }
+
 }
 
