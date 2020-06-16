@@ -141,9 +141,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        mapbox:layout_constraintTop_toBottomOf="@+id/selectCountryspinner">
 
         <Button
             android:id="@+id/deathButton"
@@ -183,5 +186,16 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/selectCountryspinner"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:background="#81FFFFFF"
+        android:layout_margin="5dp"
+        mapbox:layout_constraintEnd_toEndOf="parent"
+        mapbox:layout_constraintHorizontal_bias="1.0"
+        mapbox:layout_constraintStart_toStartOf="parent"
+        mapbox:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

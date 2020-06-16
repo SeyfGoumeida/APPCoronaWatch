@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.view.isVisible
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.coronawatch.DataClases.Countries
 import com.example.coronawatch.DataClases.Regions
@@ -32,7 +29,6 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.map.*
 
 
-
 class MapFragment : Fragment() , OnMapReadyCallback {
     private val compositeDisposable = CompositeDisposable()
     lateinit var jsonAPI: IAPI
@@ -45,6 +41,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
     lateinit var deathTextView : TextView
     lateinit var suspectedTextView : TextView
     lateinit var countryName : TextView
+    lateinit var selectCountry: Spinner
     lateinit var mMap : GoogleMap
     lateinit var statistics :View
     var countries: Countries = Countries()
@@ -58,6 +55,8 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             onMapReady(mMap)
 
         }
+        selectCountry = view.findViewById(R.id.selectCountryspinner) as Spinner
+        selectCountry.visibility=View.GONE
         statistics = view.findViewById<View>(R.id.popupLayout)
         countryName = view.findViewById(R.id.countryTextView)
         infectedTextView  = view.findViewById(R.id.infectedTextView)
@@ -73,8 +72,8 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         jsonAPI = retrofit.create(IAPI::class.java)
         deathButton = view.findViewById<Button>(R.id.deathButton)
         suspectedButton= view.findViewById<Button>(R.id.susprectedButton)
-        confirmedButton=view.findViewById<Button>(R.id.confirmedButton)
-        recoveredButton=view.findViewById<Button>(R.id.recoveredButton)
+        confirmedButton= view.findViewById<Button>(R.id.confirmedButton)
+        recoveredButton= view.findViewById<Button>(R.id.recoveredButton)
         confirmedButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)

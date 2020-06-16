@@ -8,9 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.coronawatch.DataClases.Countries
@@ -46,15 +44,14 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
     lateinit var deathTextView : TextView
     lateinit var suspectedTextView : TextView
     lateinit var countryName : TextView
-
-
-    lateinit var statistics :View
+    lateinit var selectCountry: Spinner
+    var countries: Countries = Countries()
+    private lateinit var statistics :View
     var mRegions: Regions = Regions()
     private var stat = Stats(0,0,0,0,0)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.map, null)
-        val mapFragment: SupportMapFragment =
-            childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        val mapFragment: SupportMapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         mapFragment.getMapAsync {
             mMap = it
             onMapReady(mMap)
@@ -77,6 +74,22 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         suspectedButton= view.findViewById<Button>(R.id.susprectedButton)
         confirmedButton=view.findViewById<Button>(R.id.confirmedButton)
         recoveredButton=view.findViewById<Button>(R.id.recoveredButton)
+        selectCountry = view.findViewById(R.id.selectCountryspinner) as Spinner
+        var countriesnames = getCountriesNames()
+        for (countrie in countries)
+        {
+            countriesnames.add(countrie.name)
+            Toast.makeText(context, "not empty", Toast.LENGTH_LONG).show()
+        }
+        selectCountry.adapter= ArrayAdapter<String>(context!!,android.R.layout.simple_list_item_1,countriesnames)
+        selectCountry.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                Toast.makeText(context,"اختر دولة", Toast.LENGTH_LONG).show()
+            }
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                Toast.makeText(context, countriesnames[position], Toast.LENGTH_LONG).show()
+            }
+        }
         confirmedButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
@@ -138,6 +151,7 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
+        getCountries()
         mMap.setOnCircleClickListener{ mCircle ->
             val mId = getRegionId(mCircle.center.latitude,mCircle.center.longitude)
             getRegionStats(mId)
@@ -148,6 +162,29 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             countryName.text=getRegionName(mId)
             popupLayout.visibility=(View.VISIBLE)
         }
+    }
+    private fun getCountries() {
+        compositeDisposable.add( jsonAPI.getcountries()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe (
+                { listcountries ->
+                    countries=listcountries
+                } ,
+                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
+                }
+            )
+        )
+
+    }
+
+    private fun getCountriesNames() :ArrayList<String>{
+        var listCountriesNames : ArrayList<String> = ArrayList()
+        for (countrie in countries)
+             {
+                 listCountriesNames.add(countrie.name)
+             }
+        return listCountriesNames
     }
     private fun fetchregions(type:String,idCountry:Int) {
 
