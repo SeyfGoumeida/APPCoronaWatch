@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.coronawatch.DataClases.Countries
 import com.example.coronawatch.DataClases.Regions
@@ -74,13 +73,18 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         suspectedButton= view.findViewById<Button>(R.id.susprectedButton)
         confirmedButton=view.findViewById<Button>(R.id.confirmedButton)
         recoveredButton=view.findViewById<Button>(R.id.recoveredButton)
-
+        selectCountry = view.findViewById(R.id.selectCountryspinner) as Spinner
         getCountries(view)
-
+        var selectedCountryName = selectCountry.selectedItem
+        if (selectedCountryName!=null){
+            selectedCountryName = selectedCountryName.toString()
+        }
         confirmedButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions("Confirmed",56)
+            var selectedCountryName = selectCountry.selectedItem.toString()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            fetchregions("Confirmed",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, " ...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.INVISIBLE
             suspectedButton.visibility=View.VISIBLE
@@ -90,7 +94,9 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         suspectedButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions("Suspected",56)
+            var selectedCountryName = selectCountry.selectedItem.toString()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            fetchregions("Suspected",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
             suspectedButton.visibility=View.INVISIBLE
@@ -100,7 +106,9 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         deathButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions("Death",56)
+            var selectedCountryName = selectCountry.selectedItem.toString()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            fetchregions("Death",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
             suspectedButton.visibility=View.VISIBLE
@@ -110,7 +118,9 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         recoveredButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
-            fetchregions("Recovered",56)
+            var selectedCountryName = selectCountry.selectedItem.toString()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            fetchregions("Recovered",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
             suspectedButton.visibility=View.VISIBLE
@@ -134,7 +144,11 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             if (!success) {
                 Log.e(TAG, "Style parsing failed.")
             }
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(28.0339, 1.6596),5.0f))
+
+            //selectCountry = view?.findViewById(R.id.selectCountryspinner) as Spinner
+            //val selectedCountryName = selectCountry.selectedItem.toString()
+
+           // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),5.0f))
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
@@ -156,7 +170,7 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
                 { listcountries -> DisplaySpinner( view , listcountries)
-
+                    countries = listcountries
                 } ,
                 { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
                 }
@@ -164,12 +178,9 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         )
 
     }
-
     private fun DisplaySpinner(view : View , countries: Countries ) {
         selectCountry = view.findViewById(R.id.selectCountryspinner) as Spinner
-
-        val countriesnames : ArrayList<String> = emptyList<String>() as ArrayList<String>
-
+        var countriesnames : ArrayList<String> = ArrayList()
         for (country in countries)
         {
             countriesnames.add(country.name)
@@ -182,6 +193,7 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 Toast.makeText(context, countriesnames[position], Toast.LENGTH_LONG).show()
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(countriesnames[position],countries), getLng(countriesnames[position],countries)),6.0f))
             }
         }
     }
@@ -305,6 +317,24 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
      }
     private fun affectStats(stats: Stats){
         stat=stats
+    }
+    private fun getLat(countryName : String, countries: Countries)  :Double{
+        var lat : Double =0.0
+        for(country in countries ) if (country.name == countryName){lat=country.latitude}
+        return lat
+    }
+    private fun getLng(countryName : String, countries: Countries) :Double{
+        var lng : Double =0.0
+        for (country in countries)if (country.name == countryName){lng=country.longitude}
+        return lng
+    }
+    private fun getCountryId(latitude : Double, longitude : Double):Int{
+        var mId =0
+        val country = countries.find {it.latitude.equals(latitude) && it.longitude.equals(longitude)}
+        if (country != null) {
+            mId=country.id
+        }
+        return mId
     }
 
 }

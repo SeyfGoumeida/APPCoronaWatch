@@ -368,7 +368,7 @@ class MapFragment : Fragment() , OnMapReadyCallback {
     }
     private fun getLng(countryId : Int) :Double{
         var lng : Double =0.0
-        for (country in countries)if (country.id==countryId){lng=country.latitude}
+        for (country in countries)if (country.id==countryId){lng=country.longitude}
         return lng
     }
     private fun getCountries() {
