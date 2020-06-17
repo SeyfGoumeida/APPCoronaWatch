@@ -86,6 +86,15 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
                 startActivity(intent)
 
             }
+            R.id.nav_dashboard -> {
+
+                val fragment1 = DashboardStatsFragment()
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, fragment1)
+                transaction.commit()
+                toolbar.title = "لوحة القيادة"
+
+            }
 
 
 

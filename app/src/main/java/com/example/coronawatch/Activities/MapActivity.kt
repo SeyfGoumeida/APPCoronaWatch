@@ -382,7 +382,6 @@ class MapFragment : Fragment() , OnMapReadyCallback {
                 }
             )
         )
-
     }
     private fun getCountryId(latitude : Double, longitude : Double):Int{
         var mId =0

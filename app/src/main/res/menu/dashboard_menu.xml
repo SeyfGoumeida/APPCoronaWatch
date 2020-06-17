@@ -3,6 +3,16 @@
     >
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_articles"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:iconTint="@android:color/darker_gray"
+            android:title="الواجهة" />
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:iconTint="@android:color/darker_gray"
+            android:title="لوحة القيادة" />
+        <item
             android:id="@+id/nav_map"
             android:iconTint="@android:color/darker_gray"
             android:icon="@drawable/mapbox_compass_icon"
@@ -12,11 +22,7 @@
             android:icon="@drawable/ic_dashboard_black_24dp"
             android:iconTint="@android:color/darker_gray"
             android:title="خريطة دولة" />
-        <item
-            android:id="@+id/nav_articles"
-            android:icon="@drawable/ic_dashboard_black_24dp"
-            android:iconTint="@android:color/darker_gray"
-            android:title="الواجهة" />
+
 
 
     </group>

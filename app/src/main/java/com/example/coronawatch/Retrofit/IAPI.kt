@@ -89,6 +89,8 @@ interface IAPI {
 
     @GET("geo/country/")
     fun getcountries(): Observable<Countries>
+    @GET("geo/worldstats/")
+    fun getWorldStatistics(): Observable<Stats>
 
 
 
