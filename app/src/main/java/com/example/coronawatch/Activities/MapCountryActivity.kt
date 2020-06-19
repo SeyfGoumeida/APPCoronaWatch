@@ -75,15 +75,12 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
         recoveredButton=view.findViewById<Button>(R.id.recoveredButton)
         selectCountry = view.findViewById(R.id.selectCountryspinner) as Spinner
         getCountries(view)
-        var selectedCountryName = selectCountry.selectedItem
-        if (selectedCountryName!=null){
-            selectedCountryName = selectedCountryName.toString()
-        }
         confirmedButton.setOnClickListener{
             mMap.clear()
             onMapReady(mMap)
             var selectedCountryName = selectCountry.selectedItem.toString()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            if(getLat(selectedCountryName,countries)!=0.0)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
             fetchregions("Confirmed",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, " ...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.INVISIBLE
@@ -95,7 +92,8 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             mMap.clear()
             onMapReady(mMap)
             var selectedCountryName = selectCountry.selectedItem.toString()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            if(getLat(selectedCountryName,countries)!=0.0)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
             fetchregions("Suspected",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
@@ -107,7 +105,8 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             mMap.clear()
             onMapReady(mMap)
             var selectedCountryName = selectCountry.selectedItem.toString()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            if(getLat(selectedCountryName,countries)!=0.0)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
             fetchregions("Death",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
@@ -119,7 +118,8 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             mMap.clear()
             onMapReady(mMap)
             var selectedCountryName = selectCountry.selectedItem.toString()
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
+            if(getLat(selectedCountryName,countries)!=0.0)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)),7.0f))
             fetchregions("Recovered",getCountryId(getLat(selectedCountryName,countries), getLng(selectedCountryName,countries)))
             Toast.makeText(context, "...جاري تحميل الخريطة", Toast.LENGTH_LONG).show()
             confirmedButton.visibility=View.VISIBLE
@@ -180,11 +180,12 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
     }
     private fun DisplaySpinner(view : View , countries: Countries ) {
         selectCountry = view.findViewById(R.id.selectCountryspinner) as Spinner
+
         var countriesnames : ArrayList<String> = ArrayList()
+        countriesnames.add("")
         for (country in countries)
         {
             countriesnames.add(country.name)
-            Toast.makeText(context, "not empty", Toast.LENGTH_LONG).show()
         }
         selectCountry.adapter= ArrayAdapter<String>(context!!,android.R.layout.simple_list_item_1,countriesnames)
         selectCountry.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -193,7 +194,11 @@ class MapCountryFragment : Fragment() , OnMapReadyCallback {
             }
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 Toast.makeText(context, countriesnames[position], Toast.LENGTH_LONG).show()
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(countriesnames[position],countries), getLng(countriesnames[position],countries)),6.0f))
+                if(getLat(countriesnames[position],countries)!=0.0) mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(getLat(countriesnames[position],countries), getLng(countriesnames[position],countries)),6.0f))
+                confirmedButton.visibility=View.VISIBLE
+                suspectedButton.visibility=View.VISIBLE
+                deathButton.visibility=View.VISIBLE
+                recoveredButton.visibility=View.VISIBLE
             }
         }
     }

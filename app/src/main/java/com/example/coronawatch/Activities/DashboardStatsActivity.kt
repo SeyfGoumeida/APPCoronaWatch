@@ -34,6 +34,8 @@ class DashboardStatsFragment: Fragment() {
     lateinit var confirmedTextView : TextView
     lateinit var recovredTextView : TextView
     lateinit var deathTextView : TextView
+    lateinit var suspectedTextView: TextView
+    lateinit var notyetsickTextView: TextView
     var countries = Countries()
     lateinit var jsonAPI: IAPI
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,9 +78,13 @@ class DashboardStatsFragment: Fragment() {
                     deathTextView = view.findViewById(R.id.deathTextView)
                     confirmedTextView = view.findViewById(R.id.confirmedTextView)
                     recovredTextView= view.findViewById(R.id.recoveredTextView)
+                    suspectedTextView = view.findViewById(R.id.suspectedTextView)
+                    notyetsickTextView= view.findViewById(R.id.notyetsickTextView)
                     deathTextView.text=stats.nb_death__sum.toString()
                     confirmedTextView.text=stats.nb_confirmed__sum.toString()
                     recovredTextView.text=stats.nb_recovered__sum.toString()
+                    notyetsickTextView.text=stats.nb_notyetsick__sum.toString()
+                    suspectedTextView.text=stats.nb_suspected__sum.toString()
                 } ,
                 { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
                 }

@@ -52,7 +52,7 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:text="عدد المتماثلين للشفاء :"
+        android:text=" المتماثلين للشفاء :"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -65,7 +65,7 @@
 
     <TextView
         android:id="@+id/textView7"
-        android:text="عدد الموتى  :"
+        android:text=" الموتى  :"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -78,7 +78,7 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:text="عدد الاصابات المؤكدة :"
+        android:text=" الاصابات المؤكدة :"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -98,5 +98,78 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_language_black_24dp" />
+        app:srcCompat="@drawable/ic_language_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:background="#B3009688"
+        android:layout_margin="30dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recoveredTextView"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/notyetsickTextView"
+        android:text="777"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@drawable/border_shadow_blue"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView22"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/suspectedTextView"
+        android:text="777"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@drawable/border_shadow_orange"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintHorizontal_bias="0.319"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/textView22"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:text="ليس مريضا بعد :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@drawable/border_shadow_blue"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:text="المشتبه فيهم  :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@drawable/border_shadow_orange"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,11 +15,11 @@
         <item
             android:id="@+id/nav_map"
             android:iconTint="@android:color/darker_gray"
-            android:icon="@drawable/mapbox_compass_icon"
+            android:icon="@drawable/ic_language_black_24dp"
             android:title=" خريطة العالم" />
         <item
             android:id="@+id/nav_map_country"
-            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:icon="@drawable/ic_location_on_black_24dp"
             android:iconTint="@android:color/darker_gray"
             android:title="خريطة دولة" />
 

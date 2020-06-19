@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
@@ -139,20 +140,14 @@ class MapFragment : Fragment() , OnMapReadyCallback {
             if (!success) {
                 Log.e(TAG, "Style parsing failed.")
             }
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(28.0339, 1.6596),5.0f))
         } catch (e: Resources.NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
         getCountries()
         mMap.setOnCircleClickListener{ mCircle ->
             val mId= getCountryId(mCircle.center.latitude,mCircle.center.longitude)
-            getCountryStats(mId)
-            infectedTextView.text= stat.nb_confirmed__sum.toString()
-            recovredTextView.text=stat.nb_recovered__sum.toString()
-            deathTextView.text=stat.nb_death__sum.toString()
-            suspectedTextView.text=stat.nb_suspected__sum.toString()
-            countryName.text=getCountryName(mCircle.center.latitude,mCircle.center.longitude)
-            popupLayout.visibility=(View.VISIBLE)
+            getCountryStats(mId,mCircle)
+
         }
     }
     private fun fetchregions(idCountry:Int) {
@@ -399,21 +394,24 @@ class MapFragment : Fragment() , OnMapReadyCallback {
         }
         return mName
     }
-    private fun getCountryStats(idCountry:Int){
+    private fun getCountryStats(idCountry:Int,mCircle:Circle){
         compositeDisposable.add( jsonAPI.getCountryStatistics(idCountry)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
                 { statistics  ->
-                    affectStats(statistics)
+                    infectedTextView.text= statistics.nb_confirmed__sum.toString()
+                    recovredTextView.text=statistics.nb_recovered__sum.toString()
+                    deathTextView.text=statistics.nb_death__sum.toString()
+                    suspectedTextView.text=statistics.nb_suspected__sum.toString()
+                    countryName.text=getCountryName(mCircle.center.latitude,mCircle.center.longitude)
+                    popupLayout.visibility=(View.VISIBLE)
                 } ,
                 { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
                 }
             )
         )
     }
-    private fun affectStats(stats: Stats){
-        stat=stats
-    }
+
 }
 
