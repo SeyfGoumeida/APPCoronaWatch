@@ -21,6 +21,7 @@ import com.example.coronawatch.Activities.ArticlesActivity
 import com.example.coronawatch.DataClases.User
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
+import com.example.coronawatch.Retrofit.RetrofitClient
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -69,26 +70,26 @@ class AddFragment : Fragment()  {
                 var userString : String  = preferences.getString("currentUser","{}")
                 val trimmed: String = userString.trim()
                 var user : User = gson.fromJson(trimmed , User::class.java)
+                val retrofit = RetrofitClient.instance
+                jsonAPI = retrofit.create(IAPI::class.java)
+                //Toast.makeText(context, user.token, Toast.LENGTH_LONG).show()
+                var nameOfTheVideoWithoutDotMP4="the name of the video without .MP4"
+                Toast.makeText(context, videoUri.path, Toast.LENGTH_LONG).show()
 
-                compositeDisposable.add( jsonAPI.addVideo(user.token , "testing" ,videoUri.path)
+                compositeDisposable.add( jsonAPI.addVideo(user.token , "testing" ,"external/video/media/"+nameOfTheVideoWithoutDotMP4)
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ user ->
+                    .subscribe({
 
                         Toast.makeText(context, "Video saved to:\n"
-                                + videoUri, Toast.LENGTH_LONG).show()
+                                + videoUri.path, Toast.LENGTH_LONG).show()
 
                     } , { error  ->  Toast.makeText(context ,error.message ,
                         Toast.LENGTH_LONG).show() }
                     ) )
-
-
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(context, "Video recording cancelled.",
-                    Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Video recording cancelled.", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(context, "Failed to record video",
-                    Toast.LENGTH_LONG).show()
-            }
+                Toast.makeText(context, "Failed to record video", Toast.LENGTH_LONG).show() }
         }
     }
 }
