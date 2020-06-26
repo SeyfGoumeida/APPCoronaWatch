@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_videos"
-        android:name="com.example.coronawatch.ui.videos.VideosFragment"
+        android:name="com.example.coronawatch.UI.videos.VideosFragment"
         android:label="@string/title_videos"
         tools:layout="@layout/fragment_videos" />
 

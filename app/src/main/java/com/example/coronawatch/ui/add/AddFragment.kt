@@ -1,23 +1,17 @@
 package com.example.coronawatch.ui.add
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
 import android.preference.PreferenceManager
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.example.coronawatch.Activities.ArticlesActivity
 import com.example.coronawatch.DataClases.User
 import com.example.coronawatch.R
 import com.example.coronawatch.Retrofit.IAPI
@@ -73,10 +67,12 @@ class AddFragment : Fragment()  {
                 val retrofit = RetrofitClient.instance
                 jsonAPI = retrofit.create(IAPI::class.java)
                 //Toast.makeText(context, user.token, Toast.LENGTH_LONG).show()
-                var nameOfTheVideoWithoutDotMP4="the name of the video without .MP4"
+                //toast a normal  uri video then use the same directory with ur selected static video
+                //videoUri="ur static uri"
                 Toast.makeText(context, videoUri.path, Toast.LENGTH_LONG).show()
 
-                compositeDisposable.add( jsonAPI.addVideo(user.token , "testing" ,"external/video/media/"+nameOfTheVideoWithoutDotMP4)
+
+                compositeDisposable.add( jsonAPI.addVideo(user.token , "testing" ,videoUri.path)
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
 

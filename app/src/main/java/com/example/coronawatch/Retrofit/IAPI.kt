@@ -12,6 +12,11 @@ interface IAPI {
     @get:GET("video")
     val videos:Observable<Videos>
 
+    @FormUrlEncoded
+    @POST("robot")
+    fun getyoutubevideos(@Field("source") source: String ):Observable<YoutubeVideos>
+
+
     @GET("users/redactor/{redactor_id}/")
     fun getRedactorDetails(@Path("redactor_id") id: Int): Observable<Redactor>
 
@@ -46,6 +51,8 @@ interface IAPI {
     @GET("video/{video_id}/comments/")
     fun getCommentsVideos(@Path("video_id") id: Int): Observable<VideoComments>
 
+    @GET("robot/{video_id}/comments/")
+    fun getCommentsYoutubeVideos(@Path("video_id") id: Int): Observable<YoutubeComments>
 
 
     @FormUrlEncoded
@@ -63,7 +70,7 @@ interface IAPI {
     @POST("video/")
     fun addVideo( @Header("Authorization") Authorization: String,
                    @Part("title") title: String  ,
-                   @Part("video")  path: String ) : Observable<CommentsItem>
+                   @Part("video")  path: String ) : Observable<Video>
 
 
     @Multipart
@@ -72,6 +79,11 @@ interface IAPI {
                    @Header("Authorization") Authorization: String,
                    @Part("content") content: String ) : Observable<VideoCommentsItem>
 
+    @Multipart
+    @POST("robot/{video_id}/comments/")
+    fun addCommentYoutubeVideo(@Path("video_id") id: Int ,
+                        @Header("Authorization") Authorization: String,
+                        @Part("content") content: String ) : Observable<YoutubeVideoComment>
 
 
     @FormUrlEncoded
