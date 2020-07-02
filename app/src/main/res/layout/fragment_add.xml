@@ -3,20 +3,141 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    >
-
+    android:layout_height="match_parent">
 
 
     <Button
         android:id="@+id/addVideoBtn"
-        android:layout_width="124dp"
-        android:layout_height="126dp"
+        android:layout_width="83dp"
+        android:layout_height="91dp"
         android:background="@drawable/ic_add_circle_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.087" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signalerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:background="@drawable/border_shadow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addVideoBtn">
+
+        <TextView
+            android:id="@+id/symptomsTextView"
+            android:text="Symptoms :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="42dp" />
+
+        <TextView
+            android:id="@+id/addressTextView3"
+            android:text="Address :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            app:layout_constraintStart_toStartOf="@+id/symptomsTextView"
+            app:layout_constraintTop_toBottomOf="@+id/symptomsTextView" />
+
+        <EditText
+            android:id="@+id/symptomsEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Symptoms"
+            android:ems="10"
+            android:layout_marginStart="56dp"
+            app:layout_constraintStart_toEndOf="@+id/symptomsTextView"
+            app:layout_constraintTop_toTopOf="@+id/symptomsTextView" />
+
+        <EditText
+            android:id="@+id/addressEditText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Address"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="@+id/symptomsEditText"
+            app:layout_constraintTop_toTopOf="@+id/addressTextView3" />
+
+        <Button
+            android:id="@+id/addPictureButton"
+            android:text="ارفق صورة"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/addressEditText2"
+            app:layout_constraintTop_toTopOf="@+id/addPictureTextView" />
+
+        <TextView
+            android:id="@+id/addPictureTextView"
+            android:text="Add Pictures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            app:layout_constraintStart_toStartOf="@+id/addressTextView3"
+            app:layout_constraintTop_toBottomOf="@+id/langitudeTextView" />
+
+        <TextView
+            android:id="@+id/langitudeTextView"
+            android:text="Langitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="@+id/addressEditText2"
+            app:layout_constraintTop_toBottomOf="@+id/addressEditText2" />
+
+        <TextView
+            android:id="@+id/LatitudeTextView"
+            android:text="Latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/addressEditText2"
+            app:layout_constraintTop_toTopOf="@+id/langitudeTextView" />
+
+        <TextView
+            android:id="@+id/otherInfoTextView"
+            android:text="Other Infos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="@+id/addPictureTextView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <EditText
+            android:id="@+id/otherInfoEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            app:layout_constraintStart_toStartOf="@+id/addPictureButton"
+            app:layout_constraintTop_toTopOf="@+id/otherInfoTextView" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="67dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="28dp"
+            app:layout_constraintStart_toEndOf="@+id/addPictureButton"
+            app:layout_constraintTop_toTopOf="@+id/addPictureButton" />
+
+        <Button
+            android:id="@+id/submitBtn"
+            android:text="Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/otherInfoEditText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

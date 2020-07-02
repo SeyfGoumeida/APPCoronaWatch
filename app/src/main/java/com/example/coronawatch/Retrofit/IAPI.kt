@@ -2,6 +2,7 @@ package com.example.coronawatch.Retrofit
 import com.example.coronawatch.DataClases.*
 import io.reactivex.Observable
 import retrofit2.http.*
+import java.io.File
 
 
 interface IAPI {
@@ -104,8 +105,13 @@ interface IAPI {
     @GET("geo/worldstats/")
     fun getWorldStatistics(): Observable<Stats>
 
-
-
-
-
+    @Multipart
+    @POST("report/")
+    fun addreport(@Header("Authorization") Authorization: String,
+                  @Part("attachment") attachment: Int,
+                  @Part("symptoms") symptoms: String,
+                  @Part("address") address: String,
+                  @Part("latitude") latitude: Double,
+                  @Part("longitude ") longitude: Double,
+                  @Part("other_information") other_information: String ) : Observable<Report>
 }
