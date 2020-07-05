@@ -56,10 +56,9 @@ class VideosFragment : Fragment() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 if (position == 0)
-                {Toast.makeText(context, position.toString(), Toast.LENGTH_LONG).show()
+                {
                     fetchVideos()
                 } else{
-                    Toast.makeText(context, position.toString(), Toast.LENGTH_LONG).show()
                     fetchYoutubeVideos()
                 }
             }

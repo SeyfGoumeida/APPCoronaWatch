@@ -77,7 +77,7 @@ class AddFragment : Fragment() {
         val addVideoBtn = view.findViewById<Button>(R.id.addVideoBtn)
 
         addVideoBtn.setOnClickListener{
-            layoutsignaler.visibility=View.VISIBLE
+            signalerLayout.visibility=View.VISIBLE
             //            val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE);
             //            startActivityForResult(intent, VIDEO_CAPTURE)
         }
@@ -95,8 +95,9 @@ class AddFragment : Fragment() {
             val trimmed: String = userString.trim()
             Log.e("currentUser", trimmed)
             var user : User = gson.fromJson(trimmed , User::class.java)
-
             signaler(view,"Token "+user.token,latitude.toDouble(),longitude.toDouble(),R.raw.reporttest,moreinfo,add,symp)
+            signalerLayout.visibility=View.GONE
+
         }
 
         return view
@@ -169,7 +170,7 @@ class AddFragment : Fragment() {
                 {
                     Toast.makeText(context, "Report Done !!!", Toast.LENGTH_LONG).show()
                 } ,
-                { error -> Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
+                { error -> Toast.makeText(context, "Erreur de connection !!!", Toast.LENGTH_LONG).show()
                 }
             )
         )
