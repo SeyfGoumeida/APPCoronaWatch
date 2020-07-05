@@ -16,15 +16,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coronawatch.Activities.MainActivity
 import com.example.coronawatch.Activities.mMap
 import com.example.coronawatch.DataClases.User
@@ -38,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add.*
+import kotlinx.android.synthetic.main.fragment_videos.*
 import java.io.File
 
 class AddFragment : Fragment() {
@@ -75,11 +74,9 @@ class AddFragment : Fragment() {
             pickImageFromGallery()
         }
         val addVideoBtn = view.findViewById<Button>(R.id.addVideoBtn)
-
+        val selectType = view!!.findViewById(R.id.spinner) as Spinner
         addVideoBtn.setOnClickListener{
-            signalerLayout.visibility=View.VISIBLE
-            //            val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-            //            startActivityForResult(intent, VIDEO_CAPTURE)
+            selectType.visibility=View.VISIBLE
         }
         val moreinfo = view.findViewById<EditText>(R.id.otherInfoEditText).text.toString()
         val symp = view.findViewById<EditText>(R.id.symptomsEditText).text.toString()
@@ -98,6 +95,36 @@ class AddFragment : Fragment() {
             signaler(view,"Token "+user.token,latitude.toDouble(),longitude.toDouble(),R.raw.reporttest,moreinfo,add,symp)
             signalerLayout.visibility=View.GONE
 
+        }
+
+        //--------------
+
+        var Types : ArrayList<String> = ArrayList()
+        Types.add("اختر نوع الاضافة ...")
+        //-
+        Types.add("تبليغ")
+        Types.add("اضافة فيديو")
+
+        selectType.adapter= ArrayAdapter<String>(context!!,android.R.layout.simple_list_item_1,Types)
+        selectType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                Toast.makeText(context, "اختر نوع", Toast.LENGTH_LONG).show()
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                if (position == 1)
+                {
+                    signalerLayout.visibility=View.VISIBLE
+
+                } else if (position == 2){
+                              signalerLayout.visibility=View.GONE
+                             val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                             startActivityForResult(intent, VIDEO_CAPTURE)
+
+
+                }
+            }
         }
 
         return view
