@@ -78,13 +78,15 @@ class AddFragment : Fragment() {
         addVideoBtn.setOnClickListener{
             selectType.visibility=View.VISIBLE
         }
-        val moreinfo = view.findViewById<EditText>(R.id.otherInfoEditText).text.toString()
-        val symp = view.findViewById<EditText>(R.id.symptomsEditText).text.toString()
-        val add = view.findViewById<EditText>(R.id.addressEditText2).text.toString()
+
 
 
         val submitBtn = view.findViewById<Button>(R.id.submitBtn)
         submitBtn.setOnClickListener{
+            val moreinfo = view.findViewById<EditText>(R.id.otherInfoEditText).text.toString()
+            val symp = view.findViewById<EditText>(R.id.symptomsEditText).text.toString()
+            val add = view.findViewById<EditText>(R.id.addressEditText2).text.toString()
+
             val gson = Gson()
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
             var userString : String  = preferences.getString("currentUser","{}")
@@ -113,16 +115,18 @@ class AddFragment : Fragment() {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                if (position == 1)
-                {
-                    signalerLayout.visibility=View.VISIBLE
-
-                } else if (position == 2){
-                              signalerLayout.visibility=View.GONE
-                             val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                             startActivityForResult(intent, VIDEO_CAPTURE)
-
-
+                when (position) {
+                    0 -> {
+                        signalerLayout.visibility = View.GONE
+                    }
+                    1 -> {
+                        signalerLayout.visibility=View.VISIBLE
+                    }
+                    2 -> {
+                        signalerLayout.visibility=View.GONE
+                        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                        startActivityForResult(intent, VIDEO_CAPTURE)
+                    }
                 }
             }
         }
