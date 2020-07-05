@@ -17,7 +17,7 @@ import com.google.android.material.navigation.NavigationView
 
 
 // ------------------------------------------------------------------------------------------------------------------------
-class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
+class DashboardUserActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var toolbar: Toolbar
     lateinit var drawerLayout: DrawerLayout
@@ -46,7 +46,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
 
 
 
- // Navigation Drawer Section ---------------------------------------------------------------------------------------------------------------------
+        // Navigation Drawer Section ---------------------------------------------------------------------------------------------------------------------
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view_dashboard)
@@ -82,7 +82,7 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
             }
             R.id.nav_articles -> {
 
-                val intent = Intent(this, ArticlesActivityGuest::class.java)
+                val intent = Intent(this, ArticlesActivity::class.java)
                 startActivity(intent)
 
             }
@@ -111,8 +111,8 @@ class DashboardActivity : AppCompatActivity() , NavigationView.OnNavigationItemS
         }
     }
 
- //------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------------
 
 
 
-    }
+}

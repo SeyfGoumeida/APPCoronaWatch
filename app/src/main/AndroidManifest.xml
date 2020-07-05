@@ -27,19 +27,22 @@
             android:name=".Activities.LoaderActivity"
             android:theme="@style/LoginPage" >
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".Activities.ArticlesActivity" />
 
+        <activity android:name=".Activities.DashboardUserActivity"
+            android:theme="@style/LoginPage" />
         <activity android:name=".Activities.ArticlesActivityGuest" />
         <activity android:name=".Activities.UserActivity"
             android:theme="@style/LoginPage" />
         <activity android:name=".Activities.MainActivity"
         android:theme="@style/LoginPage">
     </activity>
+
 
         <activity android:name=".Activities.DashboardActivity"
             android:theme="@style/LoginPage">

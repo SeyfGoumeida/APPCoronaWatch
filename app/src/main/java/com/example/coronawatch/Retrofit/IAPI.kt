@@ -8,14 +8,14 @@ import java.io.File
 interface IAPI {
 
     @get:GET("article")
-    val articles:Observable<Articles>
+    val articles: Observable<Articles>
 
     @get:GET("video")
-    val videos:Observable<Videos>
+    val videos: Observable<Videos>
 
     @FormUrlEncoded
     @POST("robot")
-    fun getyoutubevideos(@Field("source") source: String ):Observable<YoutubeVideos>
+    fun getyoutubevideos(@Field("source") source: String): Observable<YoutubeVideos>
 
 
     @GET("users/redactor/{redactor_id}/")
@@ -26,7 +26,10 @@ interface IAPI {
 
     @FormUrlEncoded
     @POST("users/login/")
-    fun getUser(@Field("username") username: String, @Field("password") password: String): Observable<User>
+    fun getUser(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): Observable<User>
 
     @FormUrlEncoded
     @POST("users/googlesign/")
@@ -38,13 +41,14 @@ interface IAPI {
 
     @FormUrlEncoded
     @POST("users/emailsign/")
-    fun signUser(@Field("username") username: String,
-                 @Field("email") email: String,
-                 @Field("password") password: String,
-                 @Field("password2") password2: String,
-                 @Field("first_name") first_name: String,
-                 @Field("last_name") last_name: String
-                 ): Observable<User>
+    fun signUser(
+        @Field("username") username: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("password2") password2: String,
+        @Field("first_name") first_name: String,
+        @Field("last_name") last_name: String
+    ): Observable<User>
 
     @GET("article/{article_id}/comments/")
     fun getComments(@Path("article_id") id: Int): Observable<Comments>
@@ -58,40 +62,53 @@ interface IAPI {
 
     @FormUrlEncoded
     @POST("article/detailComment/{comment_id}/")
-    fun deleteComment(@Path("comment_id") id: Int , @Field("Authorization") Authorization: String) : Observable <String>
+    fun deleteComment(
+        @Path("comment_id") id: Int,
+        @Field("Authorization") Authorization: String
+    ): Observable<String>
 
 
     @Multipart
     @POST("article/{article_id}/newComment/")
-    fun addComment(@Path("article_id") id: Int ,
-                    @Header("Authorization") Authorization: String,
-                    @Part("content") content: String ) : Observable<CommentsItem>
+    fun addComment(
+        @Path("article_id") id: Int,
+        @Header("Authorization") Authorization: String,
+        @Part("content") content: String
+    ): Observable<CommentsItem>
 
     @Multipart
     @POST("video/")
-    fun addVideo( @Header("Authorization") Authorization: String,
-                   @Part("title") title: String  ,
-                   @Part("video")  path: String ) : Observable<Video>
+    fun addVideo(
+        @Header("Authorization") Authorization: String,
+        @Part("title") title: String,
+        @Part("video") path: String
+    ): Observable<Video>
 
 
     @Multipart
     @POST("video/{video_id}/comments/")
-    fun addCommentVideo(@Path("video_id") id: Int ,
-                   @Header("Authorization") Authorization: String,
-                   @Part("content") content: String ) : Observable<VideoCommentsItem>
+    fun addCommentVideo(
+        @Path("video_id") id: Int,
+        @Header("Authorization") Authorization: String,
+        @Part("content") content: String
+    ): Observable<VideoCommentsItem>
 
     @Multipart
     @POST("robot/{video_id}/comments/")
-    fun addCommentYoutubeVideo(@Path("video_id") id: Int ,
-                        @Header("Authorization") Authorization: String,
-                        @Part("content") content: String ) : Observable<YoutubeVideoComment>
+    fun addCommentYoutubeVideo(
+        @Path("video_id") id: Int,
+        @Header("Authorization") Authorization: String,
+        @Part("content") content: String
+    ): Observable<YoutubeVideoComment>
 
 
     @FormUrlEncoded
     @POST("article/detailComment/{comment_id}/")
-    fun editComment(@Path("comment_id") id: Int ,
-                    @Field("Authorization") Authorization: String,
-                    @Field("content") content: String ) : Observable<String>
+    fun editComment(
+        @Path("comment_id") id: Int,
+        @Field("Authorization") Authorization: String,
+        @Field("content") content: String
+    ): Observable<String>
 
     //MAP
     @GET("geo/country/{country_id}/infectedregions/")
@@ -102,16 +119,20 @@ interface IAPI {
 
     @GET("geo/country/")
     fun getcountries(): Observable<Countries>
+
     @GET("geo/worldstats/")
     fun getWorldStatistics(): Observable<Stats>
 
     @Multipart
     @POST("report/")
-    fun addreport(@Header("Authorization") Authorization: String,
-                  @Part("attachment") attachment: Int,
-                  @Part("symptoms") symptoms: String,
-                  @Part("address") address: String,
-                  @Part("latitude") latitude: Double,
-                  @Part("longitude ") longitude: Double,
-                  @Part("other_information") other_information: String ) : Observable<Report>
+    fun addreport(
+        @Header("Authorization") Authorization: String,
+        @Part("attachment") attachment: Int,
+        @Part("symptoms") symptoms: String,
+        @Part("address") address: String,
+        @Part("latitude") latitude: Double,
+        @Part("longitude ") longitude: Double,
+        @Part("other_information") other_information: String
+    ): Observable<Report>
+
 }
