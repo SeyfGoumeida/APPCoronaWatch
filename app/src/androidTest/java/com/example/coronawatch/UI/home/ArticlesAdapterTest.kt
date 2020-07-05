@@ -39,6 +39,7 @@ class ArticlesAdapterTest {
         SignUp(username , email  , password)
         LogOut()
         SignIn(email , password)
+        UserChooseStat()
        // UserCanComment("trying the whole thing yay")
         LogOut()
 
@@ -70,7 +71,11 @@ class ArticlesAdapterTest {
         Thread.sleep(3000)
 
     }
+    fun UserChooseStat(){
+        onView(withId(R.id.nav_view_dashboard)).perform(click())
+        onView(withId(R.id.nav_map_country)).perform(click())
 
+    }
 
     fun UserCanComment( comment : String) {
 
@@ -123,7 +128,7 @@ class ArticlesAdapterTest {
     }
 
 
-        fun LogOut() {
+    fun LogOut() {
 
         onView(withId(R.id.navigation_profil)).perform(click())
             Thread.sleep(4000)

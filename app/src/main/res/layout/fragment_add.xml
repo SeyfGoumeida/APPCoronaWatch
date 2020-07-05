@@ -52,7 +52,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Symptoms"
             android:ems="10"
             android:layout_marginStart="56dp"
             app:layout_constraintStart_toEndOf="@+id/symptomsTextView"
@@ -63,7 +62,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Address"
             android:ems="10"
             app:layout_constraintStart_toStartOf="@+id/symptomsEditText"
             app:layout_constraintTop_toTopOf="@+id/addressTextView3" />
@@ -116,7 +114,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Name"
             android:ems="10"
             app:layout_constraintStart_toStartOf="@+id/addPictureButton"
             app:layout_constraintTop_toTopOf="@+id/otherInfoTextView" />
